@@ -10,11 +10,16 @@ SPI::SPI()
 {
    SPIx = LPC_SPI;
 
-   /* Set up clock and power for UART module */
-   CLKPWR::ConfigPPWR (CLKPWR_PCONP_PCSPI, ENABLE);
-   /* As default, peripheral clock for UART0 module
-    * is set to FCCLK / 2 */
-   CLKPWR::SetPCLKDiv(CLKPWR_PCLKSEL_SPI, CLKPWR_PCLKSEL_CCLK_DIV_2);
+   SPI_CFG_Type SPI_InitStruct;
+
+   SPI_InitStruct.CPHA = SPI_CPHA_FIRST;
+   SPI_InitStruct.CPOL = SPI_CPOL_HI;
+   SPI_InitStruct.ClockRate = 1000000;
+   SPI_InitStruct.DataOrder = SPI_DATA_MSB_FIRST;
+   SPI_InitStruct.Databit = SPI_DATABIT_8;
+   SPI_InitStruct.Mode = SPI_MASTER_MODE;
+
+   Init(SPI_InitStruct);
 }
 
 
@@ -50,7 +55,7 @@ Status SPI::SetClock ( uint32_t target_clock)
 
 
 
-void SPI::PinConfig( int32_t spiMode)
+void SPI::PinConfig(int32_t spiMode)
 {
     CHECK_PARAM(PARAM_SPI_SCK(SPIPinCfg->SCK_Pin));
     CHECK_PARAM(PARAM_SPI_SSEL(SPIPinCfg->SSEL_Pin));
@@ -96,27 +101,23 @@ void SPI::DeInit()
 
 
 
-void SPI::Init(SPI_CFG_Type *SPI_ConfigStruct)
+void SPI::Init(SPI_CFG_Type &SPI_ConfigStruct)
 {
-    uint32_t tmp;
-
     /* Set up clock and power for UART module */
     CLKPWR::ConfigPPWR (CLKPWR_PCONP_PCSPI, ENABLE);
     /* As default, peripheral clock for UART0 module
      * is set to FCCLK / 2 */
     CLKPWR::SetPCLKDiv(CLKPWR_PCLKSEL_SPI, CLKPWR_PCLKSEL_CCLK_DIV_2);
 
-    PinConfig( SPI_ConfigStruct->Mode);
+    PinConfig( SPI_ConfigStruct.Mode);
 
     // Configure SPI, interrupt is disable as default
-    tmp = ((SPI_ConfigStruct->CPHA) | (SPI_ConfigStruct->CPOL) \
-        | (SPI_ConfigStruct->DataOrder) | (SPI_ConfigStruct->Databit) \
-        | (SPI_ConfigStruct->Mode) | SPI_SPCR_BIT_EN) & SPI_SPCR_BITMASK;
-    // write back to SPI control register
-    SPIx->SPCR = tmp;
+    SPIx->SPCR = ((SPI_ConfigStruct.CPHA) | (SPI_ConfigStruct.CPOL) \
+                 | (SPI_ConfigStruct.DataOrder) | (SPI_ConfigStruct.Databit) \
+                 | (SPI_ConfigStruct.Mode) | SPI_SPCR_BIT_EN) & SPI_SPCR_BITMASK;
 
     // Set clock rate for SPI peripheral
-    SetClock( SPI_ConfigStruct->ClockRate);
+    SetClock( SPI_ConfigStruct.ClockRate);
 
     // If interrupt flag is set, Write '1' to Clear interrupt flag
     if (SPIx->SPINT & SPI_SPINT_INTFLAG)
@@ -124,25 +125,6 @@ void SPI::Init(SPI_CFG_Type *SPI_ConfigStruct)
         SPIx->SPINT = SPI_SPINT_INTFLAG;
     }
 }
-
-
-
-void SPI::ConfigStructInit(SPI_CFG_Type *SPI_InitStruct)
-{
-    SPI_InitStruct->CPHA = SPI_CPHA_FIRST;
-    SPI_InitStruct->CPOL = SPI_CPOL_HI;
-    SPI_InitStruct->ClockRate = 1000000;
-    SPI_InitStruct->DataOrder = SPI_DATA_MSB_FIRST;
-    SPI_InitStruct->Databit = SPI_DATABIT_8;
-    SPI_InitStruct->Mode = SPI_MASTER_MODE;
-}
-
-
-void SPI::Cmd( FunctionalState )
-{
-
-}
-
 
 
 void SPI::write( uint16_t Data)

@@ -20,7 +20,9 @@ extern "C"
 #endif
 
 /****************************** PRIVATE MACROS ******************************/
-/** SPI function pin selection group 0 */
+/** SPI function pin selection group 0 
+ * @todo Move those into PINSEL
+ * */
 #define SPI_PINSEL_SCK_P0_15    ((uint32_t)(15))
 #define SPI_PINFUNC_SCK_P0_15   ((uint32_t)(3))
 
@@ -131,83 +133,66 @@ number of bits per transfer */
 
 
 /**************************** GLOBAL/PUBLIC TYPES ***************************/
-/** SPI configuration structure */
-typedef struct {
-    uint32_t Databit;       /** Databit number, should be SPI_DATABIT_x,
-                            where x is in range from 8 - 16 */
-    uint32_t CPHA;          /** Clock phase, should be:
-                            - SPI_CPHA_FIRST: first clock edge
-                            - SPI_CPHA_SECOND: second clock edge */
-    uint32_t CPOL;          /** Clock polarity, should be:
-                            - SPI_CPOL_HI: high level
-                            - SPI_CPOL_LO: low level */
-    uint32_t Mode;          /** SPI mode, should be:
-                            - SPI_MASTER_MODE: Master mode
-                            - SPI_SLAVE_MODE: Slave mode */
-    uint32_t DataOrder;     /** Data order, should be:
-                            - SPI_DATA_MSB_FIRST: MSB first
-                            - SPI_DATA_LSB_FIRST: LSB first */
-    uint32_t ClockRate;     /** Clock rate,in Hz, should not exceed
-                            (SPI peripheral clock)/8 */
-} SPI_CFG_Type;
-
-/** SPI pin configuration structure */
-typedef struct {
-    uint8_t SCK_Pin;    /** SCK Pin configuration, should be:
-                        - SPI_SCK_P0_15: SCK pin is on P0.15 */
-    uint8_t SSEL_Pin;   /** SSEL Pin configuration, should be:
-                        - SPI_SSEL_P0_16: SSEL pin is on P0.16 */
-    uint8_t MISO_Pin;   /** SCK Pin configuration, should be:
-                        - SPI_MISO_P0_17: MISO pin is on P0.17 */
-    uint8_t MOSI_Pin;   /** SCK Pin configuration, should be:
-                        - SPI_MOSI_P0_18: MOSI pin is on P0.18 */
-} SPI_PinCFG_Type;
-
-/*************************** GLOBAL/PUBLIC MACROS ***************************/
-/** Macro to determine if it is valid SPI port number */
-#define PARAM_SPIx(n)   (((uint32_t *)n)==((uint32_t *)LPC_SPI_BASE))
-
-
-
 /*********************************************************************//**
  * SPI configuration parameter defines
  **********************************************************************/
 /** Clock phase control bit */
-#define SPI_CPHA_FIRST          ((uint32_t)(0))
-#define SPI_CPHA_SECOND         SPI_SPCR_CPHA_SECOND
-#define PARAM_SPI_CPHA(n)   ((n==SPI_CPHA_FIRST) || (n==SPI_CPHA_SECOND))
+typedef enum {
+   SPI_CPHA_FIRST  = ((uint32_t)(0)),
+   SPI_CPHA_SECOND = SPI_SPCR_CPHA_SECOND,
+} SPI_CPHA_e;
 
 /** Clock polarity control bit */
-#define SPI_CPOL_HI             ((uint32_t)(0))
-#define SPI_CPOL_LO             SPI_SPCR_CPOL_LOW
-#define PARAM_SPI_CPOL(n)   ((n==SPI_CPOL_HI) || (n==SPI_CPOL_LO))
+typedef enum {
+   SPI_CPOL_HI = ((uint32_t)(0)),
+   SPI_CPOL_LO = SPI_SPCR_CPOL_LOW,
+} SPI_CPOL_e;
 
 /** SPI master mode enable */
-#define SPI_SLAVE_MODE          ((uint32_t)(0))
-#define SPI_MASTER_MODE         SPI_SPCR_MSTR
-#define PARAM_SPI_MODE(n)   ((n==SPI_SLAVE_MODE) || (n==SPI_MASTER_MODE))
+typedef enum {
+   SPI_SLAVE_MODE  = ((uint32_t)(0)),
+   SPI_MASTER_MODE = SPI_SPCR_MSTR,
+} SPI_Mode_e;
 
 /** LSB enable bit */
-#define SPI_DATA_MSB_FIRST      ((uint32_t)(0))
-#define SPI_DATA_LSB_FIRST      SPI_SPCR_LSBF
-#define PARAM_SPI_DATA_ORDER(n) ((n==SPI_DATA_MSB_FIRST) || (n==SPI_DATA_LSB_FIRST))
+typedef enum {
+   SPI_DATA_MSB_FIRST = ((uint32_t)(0)),
+   SPI_DATA_LSB_FIRST = SPI_SPCR_LSBF,
+} SPI_DataMode_e;
 
 /** SPI data bit number defines */
-#define SPI_DATABIT_16      SPI_SPCR_BITS(0)        /*!< Databit number = 16 */
-#define SPI_DATABIT_8       SPI_SPCR_BITS(0x08)     /*!< Databit number = 8 */
-#define SPI_DATABIT_9       SPI_SPCR_BITS(0x09)     /*!< Databit number = 9 */
-#define SPI_DATABIT_10      SPI_SPCR_BITS(0x0A)     /*!< Databit number = 10 */
-#define SPI_DATABIT_11      SPI_SPCR_BITS(0x0B)     /*!< Databit number = 11 */
-#define SPI_DATABIT_12      SPI_SPCR_BITS(0x0C)     /*!< Databit number = 12 */
-#define SPI_DATABIT_13      SPI_SPCR_BITS(0x0D)     /*!< Databit number = 13 */
-#define SPI_DATABIT_14      SPI_SPCR_BITS(0x0E)     /*!< Databit number = 14 */
-#define SPI_DATABIT_15      SPI_SPCR_BITS(0x0F)     /*!< Databit number = 15 */
-#define PARAM_SPI_DATABIT(n)    ((n==SPI_DATABIT_16) || (n==SPI_DATABIT_8) \
-                            || (n==SPI_DATABIT_9) || (n==SPI_DATABIT_10) \
-                            || (n==SPI_DATABIT_11) || (n==SPI_DATABIT_12) \
-                            || (n==SPI_DATABIT_13) || (n==SPI_DATABIT_14) \
-                            || (n==SPI_DATABIT_15))
+typedef enum {
+ SPI_DATABIT_16    = SPI_SPCR_BITS(0),        /*!< Databit number = 16 */
+ SPI_DATABIT_8     = SPI_SPCR_BITS(0x08),     /*!< Databit number = 8 */
+ SPI_DATABIT_9     = SPI_SPCR_BITS(0x09),     /*!< Databit number = 9 */
+ SPI_DATABIT_10    = SPI_SPCR_BITS(0x0A),     /*!< Databit number = 10 */
+ SPI_DATABIT_11    = SPI_SPCR_BITS(0x0B),     /*!< Databit number = 11 */
+ SPI_DATABIT_12    = SPI_SPCR_BITS(0x0C),     /*!< Databit number = 12 */
+ SPI_DATABIT_13    = SPI_SPCR_BITS(0x0D),     /*!< Databit number = 13 */
+ SPI_DATABIT_14    = SPI_SPCR_BITS(0x0E),     /*!< Databit number = 14 */
+ SPI_DATABIT_15    = SPI_SPCR_BITS(0x0F),     /*!< Databit number = 15 */
+}SPI_DataBit_e;
 
+/** SPI configuration structure */
+typedef struct {
+    SPI_DataBit_e Databit;         /** Databit number, should be SPI_DATABIT_x,
+                              where x is in range from 8 - 16 */
+    SPI_CPHA_e CPHA;              /** Clock phase, should be:
+                              - SPI_CPHA_FIRST: first clock edge
+                              - SPI_CPHA_SECOND: second clock edge */
+    SPI_CPOL_e CPOL;            /** Clock polarity, should be:
+                              - SPI_CPOL_HI: high level
+                              - SPI_CPOL_LO: low level */
+    SPI_Mode_e Mode;            /** SPI mode, should be:
+                              - SPI_MASTER_MODE: Master mode
+                              - SPI_SLAVE_MODE: Slave mode */
+    SPI_DataMode_e DataOrder; /** Data order, should be:
+                              - SPI_DATA_MSB_FIRST: MSB first
+                              - SPI_DATA_LSB_FIRST: LSB first */
+    uint32_t ClockRate;       /** Clock rate,in Hz, should not exceed */
+} SPI_CFG_Type;
+
+/*************************** GLOBAL/PUBLIC MACROS ***************************/
 
 /*********************************************************************//**
  * SPI Status Flag defines
@@ -287,28 +272,7 @@ class SPI {
        *                    specified SPI peripheral.
        * @return      None
        *********************************************************************/
-      void       Init(SPI_CFG_Type *SPI_ConfigStruct);
-
-      /*****************************************************************************//**
-       * @brief        Fills each SPI_InitStruct member with its default value:
-       *               - CPHA = SPI_CPHA_FIRST
-       *               - CPOL = SPI_CPOL_HI
-       *               - ClockRate = 1000000
-       *               - DataOrder = SPI_DATA_MSB_FIRST
-       *               - Databit = SPI_DATABIT_8
-       *               - Mode = SPI_MASTER_MODE
-       * @param[in]    SPI_InitStruct Pointer to a SPI_CFG_Type structure
-       *                    which will be initialized.
-       * @return       None
-       *******************************************************************************/
-      void       ConfigStructInit(SPI_CFG_Type *SPI_InitStruct);
-
-      /*********************************************************************//**
-       * @brief
-       * @param[in]
-       * @return none
-       **********************************************************************/
-      void       Cmd(FunctionalState NewState);
+      void       Init(SPI_CFG_Type &SPI_ConfigStruct);
 
       /*********************************************************************//**
        * @brief       Transmit a single data through SPIx peripheral
