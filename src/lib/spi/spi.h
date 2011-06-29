@@ -1,6 +1,6 @@
 /**************************************************************************//**
- * @file    lgdp4531.h
- * @brief   File contains class declaration of GLCD class.
+ * @file    spi.h
+ * @brief   File contains class declaration of spi device class
  * @author  Dariusz Synowiec <devemouse@gmail.com>
  * @version 0.0.0dev
  * @date    June 2011
@@ -10,16 +10,16 @@
  * Include files
  *****************************************************************************/
 #include "inttypes.h"
+#include "LPC17xx.h"
 
 /******************************************************************************
  * Forward declarations
  *****************************************************************************/
-class SPI;
 
 /**
- * GLCD provides interface to Graphical LCD lgdp4531.
+ * Lamp provides abstraction for a lamp connected to uC.
  */
-class GLCD {
+class SPI {
    public:
       /*****************************************************
        * Constructors
@@ -27,28 +27,22 @@ class GLCD {
       /**
        * Default empty construcor
        */
-      //GLCD() {};
-
-      /**
-       * Constructor allowing to assign SPI device.
-       * @param[in] SPI device
-       */
-      GLCD(SPI &spi);
+      SPI() {};
 
       /**
        * Default destructor
        */
-      ~GLCD() {};
-
-      /**
-       * Initialize LCD
-       * @return !=0 if not succeeded
-       */
-      int initialize();
+      ~SPI() {};
 
       /*****************************************************
        * Functions: modifiers (set), selectors (get)
        *****************************************************/
+      /**
+       * Changes SPI baud rate
+       * @param[in] baud_ rate
+       */
+      void set_baud(uint32_t ) {};
+
 
       /*****************************************************
        * Iterators

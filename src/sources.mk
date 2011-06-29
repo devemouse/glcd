@@ -13,6 +13,7 @@ SUBDIRS = $(sort \
 			 src/app \
 			 src/lib/CMSIS/Core \
 			 src/lib/lamp \
+			 src/lib/spi \
 			 src/lib/SystemTick \
 			 )
 
@@ -32,6 +33,7 @@ CPPSRCS = $(sort \
 			 SystemTick.cpp \
 			 startup_LPC17xx.cpp \
 			 lgdp4531.cpp \
+			 spi.cpp \
 			 )
 
 # List Assembler source files. File suffix must be *.s with case sensitive
