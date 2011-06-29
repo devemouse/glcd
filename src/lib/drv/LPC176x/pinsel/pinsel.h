@@ -39,11 +39,13 @@ extern "C"
 /*********************************************************************//**
  ** Macros define for PORT Selection
  ***********************************************************************/
-#define PINSEL_PORT_0   ((0))   /**< PORT 0*/
-#define PINSEL_PORT_1   ((1))   /**< PORT 1*/
-#define PINSEL_PORT_2   ((2))   /**< PORT 2*/
-#define PINSEL_PORT_3   ((3))   /**< PORT 3*/
-#define PINSEL_PORT_4   ((4))   /**< PORT 4*/
+typedef enum {
+   PINSEL_PORT_0   = 0,   /**< PORT 0*/
+   PINSEL_PORT_1   = 1,   /**< PORT 1*/
+   PINSEL_PORT_2   = 2,   /**< PORT 2*/
+   PINSEL_PORT_3   = 3,   /**< PORT 3*/
+   PINSEL_PORT_4   = 4,   /**< PORT 4*/
+} PINSEL_Port_e;
 
 
 /***********************************************************************
@@ -118,7 +120,7 @@ extern "C"
 /** Pin configuration structure */
 typedef struct
 {
-    uint8_t Portnum;    /**< Port Number, should be PINSEL_PORT_x,
+    PINSEL_Port_e Portnum;    /**< Port Number, should be PINSEL_PORT_x,
                         where x should be in range from 0 to 4 */
     uint8_t Pinnum;     /**< Pin Number, should be PINSEL_PIN_x,
                         where x should be in range from 0 to 31 */
@@ -212,7 +214,7 @@ class PINSEL {
        *
        * @return      None
        **********************************************************************/
-      static void SetPinFunc ( uint8_t portnum, uint8_t pinnum, uint8_t funcnum);
+      static void SetPinFunc ( PINSEL_Port_e portnum, uint8_t pinnum, uint8_t funcnum);
 
       /*********************************************************************//**
        * @brief       Configure trace function
@@ -276,7 +278,7 @@ class PINSEL {
        *
        * @return      None
        **********************************************************************/
-      static void SetResistorMode ( uint8_t portnum, uint8_t pinnum, uint8_t modenum);
+      static void SetResistorMode ( PINSEL_Port_e portnum, uint8_t pinnum, uint8_t modenum);
 
       /*********************************************************************//**
        * @brief       Setup Open drain mode for each pin
@@ -329,7 +331,7 @@ class PINSEL {
        *
        * @return      None
        **********************************************************************/
-      static void SetOpenDrainMode( uint8_t portnum, uint8_t pinnum, uint8_t modenum);
+      static void SetOpenDrainMode( PINSEL_Port_e portnum, uint8_t pinnum, uint8_t modenum);
 
       /*********************************************************************//**
        * @brief       Setup I2C0 pins
