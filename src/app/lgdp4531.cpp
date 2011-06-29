@@ -3,7 +3,6 @@
 
 GLCD::GLCD(SPI &spi)
 {
-   spi.set_baud(0);
 }
 
 int GLCD::initialize()

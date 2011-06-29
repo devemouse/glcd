@@ -266,11 +266,6 @@ class SPI {
       /*****************************************************
        * Functions: modifiers (set), selectors (get)
        *****************************************************/
-      /**
-       * Changes SPI baud rate
-       * @param[in] baud_ rate
-       */
-      void set_baud(uint32_t ) {};
 
       /*********************************************************************//**
        * @brief 		Setup clock rate for SPI device
