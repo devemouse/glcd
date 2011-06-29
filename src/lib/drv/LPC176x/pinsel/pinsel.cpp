@@ -34,6 +34,7 @@ void PINSEL::SetResistorMode ( uint8_t portnum, uint8_t pinnum, uint8_t modenum)
 {
     uint32_t pinnum_t = pinnum;
     uint32_t pinmodereg_idx = 2 * portnum;
+    //TODO: remove this warning
     uint32_t *pPinCon = (uint32_t *)&LPC_PINCON->PINMODE0;
 
     if (pinnum_t >= 16) {
@@ -49,12 +50,10 @@ void PINSEL::SetResistorMode ( uint8_t portnum, uint8_t pinnum, uint8_t modenum)
 
 void PINSEL::SetOpenDrainMode( uint8_t portnum, uint8_t pinnum, uint8_t modenum)
 {
-    uint32_t *pPinCon = (uint32_t *)&LPC_PINCON->PINMODE_OD0;
-
     if (modenum == PINSEL_PINMODE_OPENDRAIN){
-        *(uint32_t *)(pPinCon + portnum) |= (0x01UL << pinnum);
+        *(&LPC_PINCON->PINMODE_OD0 + portnum) |= (0x01UL << pinnum);
     } else {
-        *(uint32_t *)(pPinCon + portnum) &= ~(0x01UL << pinnum);
+        *(&LPC_PINCON->PINMODE_OD0 + portnum) &= ~(0x01UL << pinnum);
     }
 }
 
@@ -76,7 +75,7 @@ void PINSEL::SetI2C0Pins(uint8_t i2cPinMode, FunctionalState filterSlewRateEnabl
 
 void PINSEL::ConfigPin(PINSEL_CFG_Type *PinCfg)
 {
-    PINSEL_SetPinFunc(PinCfg->Portnum, PinCfg->Pinnum, PinCfg->Funcnum);
-    PINSEL_SetResistorMode(PinCfg->Portnum, PinCfg->Pinnum, PinCfg->Pinmode);
-    PINSEL_SetOpenDrainMode(PinCfg->Portnum, PinCfg->Pinnum, PinCfg->OpenDrain);
+    SetPinFunc(PinCfg->Portnum, PinCfg->Pinnum, PinCfg->Funcnum);
+    SetResistorMode(PinCfg->Portnum, PinCfg->Pinnum, PinCfg->Pinmode);
+    SetOpenDrainMode(PinCfg->Portnum, PinCfg->Pinnum, PinCfg->OpenDrain);
 }
