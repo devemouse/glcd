@@ -1,6 +1,6 @@
 /**************************************************************************//**
  * @file    spi.h
- * @brief   File contains class declaration of spi device class
+ * @brief   File contains class declaration of spi peripheral class
  * @author  Dariusz Synowiec <devemouse@gmail.com>
  * @version 0.0.0dev
  * @date    June 2011
@@ -175,21 +175,35 @@ typedef enum {
 
 /** SPI configuration structure */
 typedef struct {
-    SPI_DataBit_e Databit;         /** Databit number, should be SPI_DATABIT_x,
-                              where x is in range from 8 - 16 */
-    SPI_CPHA_e CPHA;              /** Clock phase, should be:
-                              - SPI_CPHA_FIRST: first clock edge
-                              - SPI_CPHA_SECOND: second clock edge */
-    SPI_CPOL_e CPOL;            /** Clock polarity, should be:
-                              - SPI_CPOL_HI: high level
-                              - SPI_CPOL_LO: low level */
-    SPI_Mode_e Mode;            /** SPI mode, should be:
-                              - SPI_MASTER_MODE: Master mode
-                              - SPI_SLAVE_MODE: Slave mode */
-    SPI_DataMode_e DataOrder; /** Data order, should be:
-                              - SPI_DATA_MSB_FIRST: MSB first
-                              - SPI_DATA_LSB_FIRST: LSB first */
-    uint32_t ClockRate;       /** Clock rate,in Hz, should not exceed */
+   /** Databit number, should be SPI_DATABIT_x, where x is in range from 8 - 16 */
+   SPI_DataBit_e Databit;
+
+   /** Clock phase, should be: 
+    *   - SPI_CPHA_FIRST: first clock edge 
+    *   - SPI_CPHA_SECOND: second clock edge
+    */
+    SPI_CPHA_e CPHA;
+
+    /** Clock polarity, should be: 
+     *   - SPI_CPOL_HI: high level
+     *   - SPI_CPOL_LO: low level
+     */
+    SPI_CPOL_e CPOL;
+
+    /** SPI mode, should be: 
+     *   - SPI_MASTER_MODE: Master mode 
+     *   - SPI_SLAVE_MODE: Slave mode 
+     */
+    SPI_Mode_e Mode;
+
+    /** Data order, should be: 
+     *   - SPI_DATA_MSB_FIRST: MSB first 
+     *   - SPI_DATA_LSB_FIRST: LSB first 
+     */
+    SPI_DataMode_e DataOrder;
+
+    /** Clock rate,in Hz, should not exceed */
+    uint32_t ClockRate;
 } SPI_CFG_Type;
 
 /*************************** GLOBAL/PUBLIC MACROS ***************************/
@@ -197,19 +211,17 @@ typedef struct {
 /*********************************************************************//**
  * SPI Status Flag defines
  **********************************************************************/
+typedef uint32_t SPI_Status_t;
 /** Slave abort */
-#define SPI_STAT_ABRT       SPI_SPSR_ABRT
+#define SPI_STAT_ABRT       (SPI_Status_t)SPI_SPSR_ABRT
 /** Mode fault */
-#define SPI_STAT_MODF       SPI_SPSR_MODF
+#define SPI_STAT_MODF       (SPI_Status_t)SPI_SPSR_MODF
 /** Read overrun */
-#define SPI_STAT_ROVR       SPI_SPSR_ROVR
+#define SPI_STAT_ROVR       (SPI_Status_t)SPI_SPSR_ROVR
 /** Write collision */
-#define SPI_STAT_WCOL       SPI_SPSR_WCOL
+#define SPI_STAT_WCOL       (SPI_Status_t)SPI_SPSR_WCOL
 /** SPI transfer complete flag */
-#define SPI_STAT_SPIF       SPI_SPSR_SPIF
-#define PARAM_SPI_STAT(n)   ((n==SPI_STAT_ABRT) || (n==SPI_STAT_MODF) \
-                        || (n==SPI_STAT_ROVR) || (n==SPI_STAT_WCOL) \
-                        || (n==SPI_STAT_SPIF))
+#define SPI_STAT_SPIF       (SPI_Status_t)SPI_SPSR_SPIF
 
 #ifdef __cplusplus
 }
@@ -227,72 +239,70 @@ class SPI {
        * Constructors
        *****************************************************/
       /**
-       * Default empty construcor
+       * @brief Initializes the SPI peripheral with defualt parameters.
        */
       SPI();
+
+      /********************************************************************//**
+       * @brief       Initializes the SPI peripheral according to the specified parameters
+       * @param[in]   SPI_ConfigStruct SPI_CFG_Type structure that contains 
+       *              the configuration information for the specified SPI peripheral
+       * @return      None
+       *********************************************************************/
+      SPI(SPI_CFG_Type &SPI_ConfigStruct);
 
       /**
        * Default destructor
        */
-      ~SPI() {};
+      ~SPI() {DeInit();};
 
       /*****************************************************
        * Functions: modifiers (set), selectors (get)
        *****************************************************/
 
       /*********************************************************************//**
-       * @brief 		Setup clock rate for SPI device
-       * @param[in]	target_clock : clock of SPI (Hz)
-       * @return 		Status of process (ERROR or SUCCESS)
+       * @brief      Setup clock rate for SPI peripheral
+       * @param[in]  target_clock : clock of SPI (Hz)
+       * @return     Status of process (ERROR or SUCCESS)
        ***********************************************************************/
       Status     SetClock ( uint32_t target_clock);
 
       /*********************************************************************//**
-       * @brief       Set all pins used as SPIx function corresponding to
-       *              parameter specified in SPIPinCfg.
-       * @param[in]    spiMode SPI mode, should be:
+       * @brief       Set all pins used as SPI function 
+       * @param[in]   spiMode SPI mode, should be:
        *               - SPI_SLAVE_MODE: SLAVE mode
        *               - SPI_MASTER_MODE: MASTER mode
        * @return      None
        **********************************************************************/
-      void       PinConfig( int32_t spiMode);
+      void       PinConfig( SPI_Mode_e spiMode);
 
       /*********************************************************************//**
-       * @brief       De-initializes the SPIx peripheral registers to their
+       * @brief       De-initializes the SPI peripheral registers to their
        *                  default reset values.
        * @return      None
        **********************************************************************/
       void       DeInit();
 
-      /********************************************************************//**
-       * @brief       Initializes the SPIx peripheral according to the specified
-       *               parameters in the UART_ConfigStruct.
-       * @param[in]   SPI_ConfigStruct Pointer to a SPI_CFG_Type structure
-       *                    that contains the configuration information for the
-       *                    specified SPI peripheral.
-       * @return      None
-       *********************************************************************/
-      void       Init(SPI_CFG_Type &SPI_ConfigStruct);
 
       /*********************************************************************//**
-       * @brief       Transmit a single data through SPIx peripheral
+       * @brief       Transmit a single data through SPI peripheral
        * @param[in]   Data    Data to transmit (must be 16 or 8-bit long,
        *                      this depend on SPI data bit number configured)
        * @return      none
        **********************************************************************/
-      void       write( uint16_t Data);
+      void       Write( uint16_t Data);
 
       /*********************************************************************//**
-       * @brief       Receive a single data from SPIx peripheral
+       * @brief       Receive a single data from SPI peripheral
        * @return      Data received (16-bit long)
        **********************************************************************/
-      uint16_t   read();
+      uint16_t   Read();
 
       /********************************************************************//**
-       * @brief       Enable or disable SPIx interrupt.
+       * @brief       Enable or disable SPI interrupt.
        * @param[in]   NewState New state of specified UART interrupt type,
        *              should be:
-       *              - ENALBE: Enable this SPI interrupt.
+       *               - ENALBE: Enable this SPI interrupt.
        *               - DISALBE: Disable this SPI interrupt.
        * @return      None
        *********************************************************************/
@@ -311,7 +321,7 @@ class SPI {
       void       ClearIntPending();
 
       /********************************************************************//**
-       * @brief       Get current value of SPI Status register in SPIx peripheral.
+       * @brief       Get current value of SPI Status register in SPI peripheral.
        * @return      Current value of SPI Status register in SPI peripheral.
        * Note:    The return value of this function must be used with
        *          SPI_CheckStatus() to determine current flag status
@@ -321,7 +331,7 @@ class SPI {
        *          read SPI status register in one time only, then the return value
        *          used to check all flags.
        *********************************************************************/
-      uint32_t   GetStatus();
+      SPI_Status_t   GetStatus();
 
       /********************************************************************//**
        * @brief       Checks whether the specified SPI Status flag is set or not
@@ -337,7 +347,7 @@ class SPI {
        *              - SPI_STAT_SPIF: SPI transfer complete.
        * @return      The new state of SPIStatus (SET or RESET)
        *********************************************************************/
-      FlagStatus CheckStatus (uint32_t inputSPIStatus,  uint8_t SPIStatus);
+      FlagStatus CheckStatus (SPI_Status_t inputSPIStatus,  uint8_t SPIStatus);
 
       /*****************************************************
        * Iterators
@@ -351,6 +361,16 @@ class SPI {
       /*****************************************************
        * Protected functions
        *****************************************************/
+
+      /********************************************************************//**
+       * @brief       Initializes the SPI peripheral according to the specified
+       *               parameters in the UART_ConfigStruct.
+       * @param[in]   SPI_ConfigStruct Pointer to a SPI_CFG_Type structure
+       *                    that contains the configuration information for the
+       *                    specified SPI peripheral.
+       * @return      None
+       *********************************************************************/
+      void Init(SPI_CFG_Type &SPI_ConfigStruct);
 
       /*****************************************************
        * Protected attributes

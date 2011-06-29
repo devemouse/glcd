@@ -4,8 +4,6 @@
 #include "pinsel.h"
 
 
-#define CHECK_PARAM(expr)
-
 SPI::SPI()
 {
    SPIx = LPC_SPI;
@@ -21,6 +19,12 @@ SPI::SPI()
 
    Init(SPI_InitStruct);
 }
+
+SPI::SPI(SPI_CFG_Type &SPI_ConfigStruct)
+{
+   Init(SPI_ConfigStruct);
+}
+
 
 
 Status SPI::SetClock ( uint32_t target_clock)
@@ -55,13 +59,8 @@ Status SPI::SetClock ( uint32_t target_clock)
 
 
 
-void SPI::PinConfig(int32_t spiMode)
+void SPI::PinConfig(SPI_Mode_e spiMode)
 {
-    CHECK_PARAM(PARAM_SPI_SCK(SPIPinCfg->SCK_Pin));
-    CHECK_PARAM(PARAM_SPI_SSEL(SPIPinCfg->SSEL_Pin));
-    CHECK_PARAM(PARAM_SPI_MISO(SPIPinCfg->MISO_Pin));
-    CHECK_PARAM(PARAM_SPI_MOSI(SPIPinCfg->MOSI_Pin));
-
     // SCK pin
     PINSEL::SetPinFunc (PINSEL_PORT_0, SPI_PINSEL_SCK_P0_15, SPI_PINFUNC_SCK_P0_15);
     PINSEL::SetResistorMode (PINSEL_PORT_0, SPI_PINSEL_SCK_P0_15, PINSEL_PINMODE_PULLUP);
@@ -91,12 +90,66 @@ void SPI::PinConfig(int32_t spiMode)
 
 void SPI::DeInit()
 {
-
     if (SPIx == LPC_SPI)
     {
         /* Set up clock and power for SPI module */
        CLKPWR::ConfigPPWR (CLKPWR_PCONP_PCSPI, DISABLE);
     }
+}
+
+
+
+
+
+void SPI::Write( uint16_t Data)
+{
+    SPIx->SPDR = Data & SPI_SPDR_BITMASK;
+}
+
+
+
+uint16_t SPI::Read()
+{
+    return ((uint16_t) (SPIx->SPDR & SPI_SPDR_BITMASK));
+}
+
+
+
+void SPI::IntCmd( FunctionalState NewState)
+{
+    if (NewState == ENABLE)
+    {
+        SPIx->SPCR |= SPI_SPCR_SPIE;
+    }
+    else
+    {
+        SPIx->SPCR &= (~SPI_SPCR_SPIE) & SPI_SPCR_BITMASK;
+    }
+}
+
+
+IntStatus SPI::GetIntStatus ()
+{
+    return ((SPIx->SPINT & SPI_SPINT_INTFLAG) ? SET : RESET);
+}
+
+
+void SPI::ClearIntPending()
+{
+    SPIx->SPINT = SPI_SPINT_INTFLAG;
+}
+
+
+SPI_Status_t SPI::GetStatus()
+{
+    return ((SPI_Status_t)(SPIx->SPSR & SPI_SPSR_BITMASK));
+}
+
+
+
+FlagStatus SPI::CheckStatus (SPI_Status_t inputSPIStatus,  uint8_t SPIStatus)
+{
+    return (((uint32_t)inputSPIStatus & SPIStatus) ? SET : RESET);
 }
 
 
@@ -124,63 +177,4 @@ void SPI::Init(SPI_CFG_Type &SPI_ConfigStruct)
     {
         SPIx->SPINT = SPI_SPINT_INTFLAG;
     }
-}
-
-
-void SPI::write( uint16_t Data)
-{
-    SPIx->SPDR = Data & SPI_SPDR_BITMASK;
-}
-
-
-
-uint16_t SPI::read()
-{
-    return ((uint16_t) (SPIx->SPDR & SPI_SPDR_BITMASK));
-}
-
-
-
-void SPI::IntCmd( FunctionalState NewState)
-{
-    CHECK_PARAM(PARAM_FUNCTIONALSTATE(NewState));
-
-    if (NewState == ENABLE)
-    {
-        SPIx->SPCR |= SPI_SPCR_SPIE;
-    }
-    else
-    {
-        SPIx->SPCR &= (~SPI_SPCR_SPIE) & SPI_SPCR_BITMASK;
-    }
-}
-
-
-IntStatus SPI::GetIntStatus ()
-{
-
-    return ((SPIx->SPINT & SPI_SPINT_INTFLAG) ? SET : RESET);
-}
-
-
-void SPI::ClearIntPending()
-{
-
-    SPIx->SPINT = SPI_SPINT_INTFLAG;
-}
-
-
-uint32_t SPI::GetStatus()
-{
-
-    return (SPIx->SPSR & SPI_SPSR_BITMASK);
-}
-
-
-
-FlagStatus SPI::CheckStatus (uint32_t inputSPIStatus,  uint8_t SPIStatus)
-{
-    //CHECK_PARAM(PARAM_SPI_STAT(SPIStatus));
-
-    return ((inputSPIStatus & SPIStatus) ? SET : RESET);
 }
