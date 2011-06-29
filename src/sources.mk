@@ -14,9 +14,9 @@ SUBDIRS = $(sort \
 			 src/lib/CMSIS/Core \
 			 src/lib/lamp \
 			 src/lib/SystemTick \
-			 src/lib/drv/spi \
-			 src/lib/drv/pinsel \
-			 src/lib/drv/clkpwr \
+			 src/lib/drv/LPC176x/spi \
+			 src/lib/drv/LPC176x/pinsel \
+			 src/lib/drv/LPC176x/clkpwr \
 			 )
 
 ###########################################################################
