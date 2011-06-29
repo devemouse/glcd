@@ -168,18 +168,6 @@ typedef struct {
 #define PARAM_SPIx(n)   (((uint32_t *)n)==((uint32_t *)LPC_SPI_BASE))
 
 
-/** SPI function pin selection defines */
-#define SPI_SCK_P0_15           ((uint8_t)(0))
-#define SPI_SSEL_P0_16          ((uint8_t)(0))
-#define SPI_MISO_P0_17          ((uint8_t)(0))
-#define SPI_MOSI_P0_18          ((uint8_t)(0))
-
-/** Macro to check SPI pin configuration */
-#define PARAM_SPI_SCK(n) ((n==SPI_SCK_P0_15))
-#define PARAM_SPI_SSEL(n) ((n==SPI_SSEL_P0_16))
-#define PARAM_SPI_MISO(n)   ((n==SPI_MISO_P0_17))
-#define PARAM_SPI_MOSI(n)   ((n==SPI_MOSI_P0_18))
-
 
 /*********************************************************************//**
  * SPI configuration parameter defines
@@ -269,56 +257,37 @@ class SPI {
 
       /*********************************************************************//**
        * @brief 		Setup clock rate for SPI device
-       * @param[in] 	SPIx	SPI peripheral definition, should be SPI
        * @param[in]	target_clock : clock of SPI (Hz)
        * @return 		Status of process (ERROR or SUCCESS)
        ***********************************************************************/
-      Status     SetClock (LPC_SPI_TypeDef *SPIx, uint32_t target_clock);
+      Status     SetClock ( uint32_t target_clock);
 
       /*********************************************************************//**
        * @brief       Set all pins used as SPIx function corresponding to
        *              parameter specified in SPIPinCfg.
-       * @param[in]   SPIx    SPI peripheral selected, should be SPI
-       * @param[in]   SPIPinCfg   Pointer to a SPI_PinCFG_Type structure
-       *                    that contains the configuration information for the
-       *                    specified SPIx pin function.
        * @param[in]    spiMode SPI mode, should be:
        *               - SPI_SLAVE_MODE: SLAVE mode
        *               - SPI_MASTER_MODE: MASTER mode
        * @return      None
        **********************************************************************/
-      void       PinConfig(LPC_SPI_TypeDef *SPIx, SPI_PinCFG_Type *SPIPinCfg, int32_t spiMode);
-
-      /*****************************************************************************//**
-       * @brief        Fills each SPI_PinInitStruct member with its default value:
-       *               - MISO_Pin = SPI_MISO_P0_17
-       *               - MOSI_Pin = SPI_MOSI_P0_18
-       *               - SCK_Pin = SPI_SCK_P0_15
-       *               - SSEL_Pin = SPI_SSEL_P0_16
-       * @param[in]    SPI_PinInitStruct Pointer to a SPI_PinCFG_Type structure
-       *                    which will be initialized.
-       * @return       None
-       *******************************************************************************/
-      void       PinConfigStructInit(SPI_PinCFG_Type *SPI_PinInitStruct);
+      void       PinConfig( int32_t spiMode);
 
       /*********************************************************************//**
        * @brief       De-initializes the SPIx peripheral registers to their
        *                  default reset values.
-       * @param[in]   SPIx    SPI peripheral selected, should be SPI
        * @return      None
        **********************************************************************/
-      void       DeInit(LPC_SPI_TypeDef* SPIx);
+      void       DeInit();
 
       /********************************************************************//**
        * @brief       Initializes the SPIx peripheral according to the specified
        *               parameters in the UART_ConfigStruct.
-       * @param[in]   SPIx    SPI peripheral selected, should be SPI
        * @param[in]   SPI_ConfigStruct Pointer to a SPI_CFG_Type structure
        *                    that contains the configuration information for the
        *                    specified SPI peripheral.
        * @return      None
        *********************************************************************/
-      void       Init(LPC_SPI_TypeDef *SPIx, SPI_CFG_Type *SPI_ConfigStruct);
+      void       Init(SPI_CFG_Type *SPI_ConfigStruct);
 
       /*****************************************************************************//**
        * @brief        Fills each SPI_InitStruct member with its default value:
@@ -339,52 +308,46 @@ class SPI {
        * @param[in]
        * @return none
        **********************************************************************/
-      void       Cmd(LPC_SPI_TypeDef* SPIx, FunctionalState NewState);
+      void       Cmd(FunctionalState NewState);
 
       /*********************************************************************//**
        * @brief       Transmit a single data through SPIx peripheral
-       * @param[in]   SPIx    SPI peripheral selected, should be SPI
        * @param[in]   Data    Data to transmit (must be 16 or 8-bit long,
        *                      this depend on SPI data bit number configured)
        * @return      none
        **********************************************************************/
-      void       SendData(LPC_SPI_TypeDef* SPIx, uint16_t Data);
+      void       write( uint16_t Data);
 
       /*********************************************************************//**
        * @brief       Receive a single data from SPIx peripheral
-       * @param[in]   SPIx    SPI peripheral selected, should be SPI
        * @return      Data received (16-bit long)
        **********************************************************************/
-      uint16_t   ReceiveData(LPC_SPI_TypeDef* SPIx);
+      uint16_t   read();
 
       /********************************************************************//**
        * @brief       Enable or disable SPIx interrupt.
-       * @param[in]   SPIx    SPI peripheral selected, should be SPI
        * @param[in]   NewState New state of specified UART interrupt type,
        *              should be:
        *              - ENALBE: Enable this SPI interrupt.
        *               - DISALBE: Disable this SPI interrupt.
        * @return      None
        *********************************************************************/
-      void       IntCmd(LPC_SPI_TypeDef *SPIx, FunctionalState NewState);
+      void       IntCmd( FunctionalState NewState);
 
       /********************************************************************//**
        * @brief       Checks whether the SPI interrupt flag is set or not.
-       * @param[in]   SPIx    SPI peripheral selected, should be SPI
        * @return      The new state of SPI Interrupt Flag (SET or RESET)
        *********************************************************************/
-      IntStatus  GetIntStatus (LPC_SPI_TypeDef *SPIx);
+      IntStatus  GetIntStatus ();
 
       /********************************************************************//**
        * @brief       Clear SPI interrupt flag.
-       * @param[in]   SPIx    SPI peripheral selected, should be SPI
        * @return      None
        *********************************************************************/
-      void       ClearIntPending(LPC_SPI_TypeDef *SPIx);
+      void       ClearIntPending();
 
       /********************************************************************//**
        * @brief       Get current value of SPI Status register in SPIx peripheral.
-       * @param[in]   SPIx    SPI peripheral selected, should be SPI
        * @return      Current value of SPI Status register in SPI peripheral.
        * Note:    The return value of this function must be used with
        *          SPI_CheckStatus() to determine current flag status
@@ -394,7 +357,7 @@ class SPI {
        *          read SPI status register in one time only, then the return value
        *          used to check all flags.
        *********************************************************************/
-      uint32_t   GetStatus(LPC_SPI_TypeDef* SPIx);
+      uint32_t   GetStatus();
 
       /********************************************************************//**
        * @brief       Checks whether the specified SPI Status flag is set or not
@@ -437,6 +400,7 @@ class SPI {
       /*****************************************************
        * Private attributes
        *****************************************************/
+      volatile LPC_SPI_TypeDef* SPIx;
 };
 
 #endif /* _SPI_H_ */
