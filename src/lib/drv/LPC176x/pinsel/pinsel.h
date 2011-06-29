@@ -58,20 +58,6 @@ typedef enum {
    PINSEL_FUNC_3  = 3,   /**< third or reserved alternate function*/
 } PINSEL_Pin_Function_e;
 
-/** SPI function pin selection group 0 */
-#define SPI_PINSEL_SCK_P0_15    ((PINSEL_PinNum_e)(15))
-#define SPI_PINFUNC_SCK_P0_15   ((PINSEL_Pin_Function_e)(3))
-
-#define SPI_PINSEL_SSEL_P0_16   ((PINSEL_PinNum_e)(16))
-#define SPI_PINFUNC_SSEL_P0_16  ((PINSEL_Pin_Function_e)(3))
-
-#define SPI_PINSEL_MISO_P0_17   ((PINSEL_PinNum_e)(17))
-#define SPI_PINFUNC_MISO_P0_17  ((PINSEL_Pin_Function_e)(3))
-
-#define SPI_PINSEL_MOSI_P0_18   ((PINSEL_PinNum_e)(18))
-#define SPI_PINFUNC_MOSI_P0_18  ((PINSEL_Pin_Function_e)(3))
-
-
 /***********************************************************************
  ** Macros define for Pin Number of Port
  **********************************************************************/
@@ -109,6 +95,21 @@ typedef enum {
    PINSEL_PIN_30   = 30,  /**< Pin 30 */
    PINSEL_PIN_31   = 31,  /**< Pin 31 */
 } PINSEL_PinNum_e;
+
+
+
+/** SPI function pin selection group 0 */
+#define SPI_PINSEL_SCK_P0_15    (PINSEL_PIN_15)
+#define SPI_PINFUNC_SCK_P0_15   (PINSEL_FUNC_3)
+
+#define SPI_PINSEL_SSEL_P0_16   (PINSEL_PIN_16)
+#define SPI_PINFUNC_SSEL_P0_16  (PINSEL_FUNC_3)
+
+#define SPI_PINSEL_MISO_P0_17   (PINSEL_PIN_17)
+#define SPI_PINFUNC_MISO_P0_17  (PINSEL_FUNC_3)
+
+#define SPI_PINSEL_MOSI_P0_18   (PINSEL_PIN_18)
+#define SPI_PINFUNC_MOSI_P0_18  (PINSEL_FUNC_3)
 
 
 /***********************************************************************
