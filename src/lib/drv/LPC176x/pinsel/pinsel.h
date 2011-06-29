@@ -62,38 +62,40 @@ typedef enum {
 /***********************************************************************
  ** Macros define for Pin Number of Port
  **********************************************************************/
-#define PINSEL_PIN_0    ((0))   /**< Pin 0 */
-#define PINSEL_PIN_1    ((1))   /**< Pin 1 */
-#define PINSEL_PIN_2    ((2))   /**< Pin 2 */
-#define PINSEL_PIN_3    ((3))   /**< Pin 3 */
-#define PINSEL_PIN_4    ((4))   /**< Pin 4 */
-#define PINSEL_PIN_5    ((5))   /**< Pin 5 */
-#define PINSEL_PIN_6    ((6))   /**< Pin 6 */
-#define PINSEL_PIN_7    ((7))   /**< Pin 7 */
-#define PINSEL_PIN_8    ((8))   /**< Pin 8 */
-#define PINSEL_PIN_9    ((9))   /**< Pin 9 */
-#define PINSEL_PIN_10   ((10))  /**< Pin 10 */
-#define PINSEL_PIN_11   ((11))  /**< Pin 11 */
-#define PINSEL_PIN_12   ((12))  /**< Pin 12 */
-#define PINSEL_PIN_13   ((13))  /**< Pin 13 */
-#define PINSEL_PIN_14   ((14))  /**< Pin 14 */
-#define PINSEL_PIN_15   ((15))  /**< Pin 15 */
-#define PINSEL_PIN_16   ((16))  /**< Pin 16 */
-#define PINSEL_PIN_17   ((17))  /**< Pin 17 */
-#define PINSEL_PIN_18   ((18))  /**< Pin 18 */
-#define PINSEL_PIN_19   ((19))  /**< Pin 19 */
-#define PINSEL_PIN_20   ((20))  /**< Pin 20 */
-#define PINSEL_PIN_21   ((21))  /**< Pin 21 */
-#define PINSEL_PIN_22   ((22))  /**< Pin 22 */
-#define PINSEL_PIN_23   ((23))  /**< Pin 23 */
-#define PINSEL_PIN_24   ((24))  /**< Pin 24 */
-#define PINSEL_PIN_25   ((25))  /**< Pin 25 */
-#define PINSEL_PIN_26   ((26))  /**< Pin 26 */
-#define PINSEL_PIN_27   ((27))  /**< Pin 27 */
-#define PINSEL_PIN_28   ((28))  /**< Pin 28 */
-#define PINSEL_PIN_29   ((29))  /**< Pin 29 */
-#define PINSEL_PIN_30   ((30))  /**< Pin 30 */
-#define PINSEL_PIN_31   ((31))  /**< Pin 31 */
+typedef enum {
+   PINSEL_PIN_0    = 0,   /**< Pin 0 */
+   PINSEL_PIN_1    = 1,   /**< Pin 1 */
+   PINSEL_PIN_2    = 2,   /**< Pin 2 */
+   PINSEL_PIN_3    = 3,   /**< Pin 3 */
+   PINSEL_PIN_4    = 4,   /**< Pin 4 */
+   PINSEL_PIN_5    = 5,   /**< Pin 5 */
+   PINSEL_PIN_6    = 6,   /**< Pin 6 */
+   PINSEL_PIN_7    = 7,   /**< Pin 7 */
+   PINSEL_PIN_8    = 8,   /**< Pin 8 */
+   PINSEL_PIN_9    = 9,   /**< Pin 9 */
+   PINSEL_PIN_10   = 10,  /**< Pin 10 */
+   PINSEL_PIN_11   = 11,  /**< Pin 11 */
+   PINSEL_PIN_12   = 12,  /**< Pin 12 */
+   PINSEL_PIN_13   = 13,  /**< Pin 13 */
+   PINSEL_PIN_14   = 14,  /**< Pin 14 */
+   PINSEL_PIN_15   = 15,  /**< Pin 15 */
+   PINSEL_PIN_16   = 16,  /**< Pin 16 */
+   PINSEL_PIN_17   = 17,  /**< Pin 17 */
+   PINSEL_PIN_18   = 18,  /**< Pin 18 */
+   PINSEL_PIN_19   = 19,  /**< Pin 19 */
+   PINSEL_PIN_20   = 20,  /**< Pin 20 */
+   PINSEL_PIN_21   = 21,  /**< Pin 21 */
+   PINSEL_PIN_22   = 22, /**< Pin 22 */
+   PINSEL_PIN_23   = 23, /**< Pin 23 */
+   PINSEL_PIN_24   = 24, /**< Pin 24 */
+   PINSEL_PIN_25   = 25, /**< Pin 25 */
+   PINSEL_PIN_26   = 26, /**< Pin 26 */
+   PINSEL_PIN_27   = 27, /**< Pin 27 */
+   PINSEL_PIN_28   = 28, /**< Pin 28 */
+   PINSEL_PIN_29   = 29, /**< Pin 29 */
+   PINSEL_PIN_30   = 30,  /**< Pin 30 */
+   PINSEL_PIN_31   = 31,  /**< Pin 31 */
+} PINSEL_PinNum_e;
 
 
 /***********************************************************************
@@ -124,7 +126,7 @@ typedef struct
 {
     PINSEL_Port_e Portnum;    /**< Port Number, should be PINSEL_PORT_x,
                         where x should be in range from 0 to 4 */
-    uint8_t Pinnum;     /**< Pin Number, should be PINSEL_PIN_x,
+    PINSEL_PinNum_e Pinnum;     /**< Pin Number, should be PINSEL_PIN_x,
                         where x should be in range from 0 to 31 */
     PINSEL_Pin_Function_e Funcnum;    /**< Function Number, should be PINSEL_FUNC_x,
                         where x should be in range from 0 to 3 */
@@ -216,7 +218,7 @@ class PINSEL {
        *
        * @return      None
        **********************************************************************/
-      static void SetPinFunc ( PINSEL_Port_e portnum, uint8_t pinnum, PINSEL_Pin_Function_e funcnum);
+      static void SetPinFunc ( PINSEL_Port_e portnum, PINSEL_PinNum_e pinnum, PINSEL_Pin_Function_e funcnum);
 
       /*********************************************************************//**
        * @brief       Configure trace function
@@ -280,7 +282,7 @@ class PINSEL {
        *
        * @return      None
        **********************************************************************/
-      static void SetResistorMode ( PINSEL_Port_e portnum, uint8_t pinnum, uint8_t modenum);
+      static void SetResistorMode ( PINSEL_Port_e portnum, PINSEL_PinNum_e pinnum, uint8_t modenum);
 
       /*********************************************************************//**
        * @brief       Setup Open drain mode for each pin
@@ -333,7 +335,7 @@ class PINSEL {
        *
        * @return      None
        **********************************************************************/
-      static void SetOpenDrainMode( PINSEL_Port_e portnum, uint8_t pinnum, uint8_t modenum);
+      static void SetOpenDrainMode( PINSEL_Port_e portnum, PINSEL_PinNum_e pinnum, uint8_t modenum);
 
       /*********************************************************************//**
        * @brief       Setup I2C0 pins
