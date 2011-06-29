@@ -14,6 +14,7 @@ SUBDIRS = $(sort \
 			 src/lib/CMSIS/Core \
 			 src/lib/lamp \
 			 src/lib/spi \
+			 src/lib/CLK_PWR \
 			 src/lib/SystemTick \
 			 )
 
@@ -29,11 +30,12 @@ CSRCS =  $(sort \
 # List C++ source files. File suffix must be *.cpp with case sensitive
 CPPSRCS = $(sort \
 			 main.cpp \
+			 spi.cpp \
 			 lamp.cpp \
 			 SystemTick.cpp \
 			 startup_LPC17xx.cpp \
 			 lgdp4531.cpp \
-			 spi.cpp \
+			 clkpwr.cpp \
 			 )
 
 # List Assembler source files. File suffix must be *.s with case sensitive

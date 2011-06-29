@@ -27,7 +27,7 @@ class SPI {
       /**
        * Default empty construcor
        */
-      SPI() {};
+      SPI();
 
       /**
        * Default destructor
