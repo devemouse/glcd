@@ -17,7 +17,7 @@
  *****************************************************************************/
 
 /**
- * Lamp provides abstraction for a lamp connected to uC.
+ * SPI driver class
  */
 class SPI {
    public:

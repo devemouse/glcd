@@ -39,6 +39,11 @@
 #ifndef __LPC17xx_H__
 #define __LPC17xx_H__
 
+/**
+ * @brief Functional State Definition
+ */
+typedef enum {DISABLE = 0, ENABLE = !DISABLE} FunctionalState;
+
 /*
  * ==========================================================================
  * ---------- Interrupt Number Definition -----------------------------------

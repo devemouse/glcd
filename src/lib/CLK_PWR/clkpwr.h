@@ -20,10 +20,6 @@
  * Forward declarations
  *****************************************************************************/
 
-/**
- * @brief Functional State Definition
- */
-typedef enum {DISABLE = 0, ENABLE = !DISABLE} FunctionalState;
 
 #ifdef __cplusplus
 extern "C"
