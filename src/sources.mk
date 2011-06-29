@@ -21,8 +21,8 @@ SUBDIRS = $(sort \
 ###########################################################################
 # List C source fies. File suffix must be *.c with case sensitive
 CSRCS =  $(sort \
-			core_cm3.c \
-			system_LPC17xx.c \
+			 core_cm3.c \
+			 system_LPC17xx.c \
 			)
 
 # List C++ source files. File suffix must be *.cpp with case sensitive
@@ -31,6 +31,7 @@ CPPSRCS = $(sort \
 			 lamp.cpp \
 			 SystemTick.cpp \
 			 startup_LPC17xx.cpp \
+			 lgdp4531.cpp \
 			 )
 
 # List Assembler source files. File suffix must be *.s with case sensitive
