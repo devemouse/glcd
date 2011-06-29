@@ -44,6 +44,16 @@
  */
 typedef enum {DISABLE = 0, ENABLE = !DISABLE} FunctionalState;
 
+/**
+ * @ Status type definition
+ */
+typedef enum {ERROR = 0, SUCCESS = !ERROR} Status;
+
+/**
+ * @brief Flag Status and Interrupt Flag Status type definition
+ */
+typedef enum {RESET = 0, SET = !RESET} FlagStatus, IntStatus, SetState;
+
 /*
  * ==========================================================================
  * ---------- Interrupt Number Definition -----------------------------------
