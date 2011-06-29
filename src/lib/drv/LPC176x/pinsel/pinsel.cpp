@@ -2,7 +2,7 @@
 #include "pinsel.h"
 
 
-void PINSEL::SetPinFunc ( PINSEL_Port_e portnum, uint8_t pinnum, uint8_t funcnum)
+void PINSEL::SetPinFunc ( PINSEL_Port_e portnum, uint8_t pinnum, PINSEL_Pin_Function_e funcnum)
 {
     uint32_t pinnum_t = pinnum;
     uint32_t pinselreg_idx = 2 * portnum;

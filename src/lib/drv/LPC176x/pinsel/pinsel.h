@@ -51,10 +51,12 @@ typedef enum {
 /***********************************************************************
  ** Macros define for Pin Function selection
  **********************************************************************/
-#define PINSEL_FUNC_0   ((0))   /**< default function*/
-#define PINSEL_FUNC_1   ((1))   /**< first alternate function*/
-#define PINSEL_FUNC_2   ((2))   /**< second alternate function*/
-#define PINSEL_FUNC_3   ((3))   /**< third or reserved alternate function*/
+typedef enum {
+   PINSEL_FUNC_0  = 0,   /**< default function*/
+   PINSEL_FUNC_1  = 1,   /**< first alternate function*/
+   PINSEL_FUNC_2  = 2,   /**< second alternate function*/
+   PINSEL_FUNC_3  = 3,   /**< third or reserved alternate function*/
+} PINSEL_Pin_Function_e;
 
 
 /***********************************************************************
@@ -124,7 +126,7 @@ typedef struct
                         where x should be in range from 0 to 4 */
     uint8_t Pinnum;     /**< Pin Number, should be PINSEL_PIN_x,
                         where x should be in range from 0 to 31 */
-    uint8_t Funcnum;    /**< Function Number, should be PINSEL_FUNC_x,
+    PINSEL_Pin_Function_e Funcnum;    /**< Function Number, should be PINSEL_FUNC_x,
                         where x should be in range from 0 to 3 */
     uint8_t Pinmode;    /**< Pin Mode, should be:
                         - PINSEL_PINMODE_PULLUP: Internal pull-up resistor
@@ -214,7 +216,7 @@ class PINSEL {
        *
        * @return      None
        **********************************************************************/
-      static void SetPinFunc ( PINSEL_Port_e portnum, uint8_t pinnum, uint8_t funcnum);
+      static void SetPinFunc ( PINSEL_Port_e portnum, uint8_t pinnum, PINSEL_Pin_Function_e funcnum);
 
       /*********************************************************************//**
        * @brief       Configure trace function
