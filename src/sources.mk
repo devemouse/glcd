@@ -13,10 +13,10 @@ SUBDIRS = $(sort \
 			 src/app \
 			 src/lib/CMSIS/Core \
 			 src/lib/lamp \
-			 src/lib/pinsel \
-			 src/lib/spi \
-			 src/lib/CLK_PWR \
 			 src/lib/SystemTick \
+			 src/lib/drv/spi \
+			 src/lib/drv/pinsel \
+			 src/lib/drv/clkpwr \
 			 )
 
 ###########################################################################
