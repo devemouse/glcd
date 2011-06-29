@@ -138,12 +138,12 @@ typedef enum {
 /** Pin configuration structure */
 typedef struct
 {
-    PINSEL_Port_e Portnum;    /**< Port Number, should be PINSEL_PORT_x,
-                        where x should be in range from 0 to 4 */
-    PINSEL_PinNum_e Pinnum;     /**< Pin Number, should be PINSEL_PIN_x,
-                        where x should be in range from 0 to 31 */
-    PINSEL_Pin_Function_e Funcnum;    /**< Function Number, should be PINSEL_FUNC_x,
-                        where x should be in range from 0 to 3 */
+    PINSEL_Port_e Portnum;         /**< Port Number, should be PINSEL_PORT_x,
+                                        where x should be in range from 0 to 4 */
+    PINSEL_PinNum_e Pinnum;        /**< Pin Number, should be PINSEL_PIN_x,
+                                        where x should be in range from 0 to 31 */
+    PINSEL_Pin_Function_e Funcnum; /**< Function Number, should be PINSEL_FUNC_x,
+                                        where x should be in range from 0 to 3 */
     uint8_t Pinmode;    /**< Pin Mode, should be:
                         - PINSEL_PINMODE_PULLUP: Internal pull-up resistor
                         - PINSEL_PINMODE_TRISTATE: Tri-state
@@ -151,7 +151,6 @@ typedef struct
     uint8_t OpenDrain;  /**< OpenDrain mode, should be:
                         - PINSEL_PINMODE_NORMAL: Pin is in the normal (not open drain) mode
                         - PINSEL_PINMODE_OPENDRAIN: Pin is in the open drain mode */
-    uint8_t Reserved[3];    /**< Reserved */
 } PINSEL_CFG_Type;
 
 #ifdef __cplusplus
