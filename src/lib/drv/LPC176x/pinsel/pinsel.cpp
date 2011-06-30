@@ -2,7 +2,16 @@
 #include "pinsel.h"
 
 
-void PINSEL::SetPinFunc (  PINSEL_PortPin_e pinnum, PINSEL_Pin_Function_e funcnum)
+PINSEL::PINSEL( PINSEL_PortPin_e Pin, PINSEL_PinFunction_e Funcnum,
+      PINSEL_PinMode_e Pinmode, PINSEL_PinOpenDrain_e OpenDrain);
+{
+    SetPinFunc(Pin, Funcnum);
+    SetResistorMode(Pin, Pinmode);
+    SetOpenDrainMode(Pin, OpenDrain);
+}
+
+
+void PINSEL::SetPinFunc (  PINSEL_PortPin_e pinnum, PINSEL_PinFunction_e funcnum)
 {
     uint32_t pinnum_t = (pinnum & 0x1F);
     uint32_t pinselreg_idx = 2 * (pinnum & 0x0700);
@@ -14,7 +23,7 @@ void PINSEL::SetPinFunc (  PINSEL_PortPin_e pinnum, PINSEL_Pin_Function_e funcnu
         pinselreg_idx++;
     }
     *(uint32_t *)(pPinCon + pinselreg_idx) &= ~(0x03UL << (pinnum_t * 2));
-    *(uint32_t *)(pPinCon + pinselreg_idx) |= ((uint32_t)funcnum) << (pinnum_t * 2);
+    *(uint32_t *)(pPinCon + pinselreg_idx) |= (uint32_t)funcnum;
 }
 
 
@@ -72,10 +81,3 @@ void PINSEL::SetI2C0Pins(uint8_t i2cPinMode, FunctionalState filterSlewRateEnabl
     LPC_PINCON->I2CPADCFG = regVal;
 }
 
-
-void PINSEL::ConfigPin(PINSEL_CFG_Type *PinCfg)
-{
-    SetPinFunc(PinCfg->Pin, PinCfg->Funcnum);
-    SetResistorMode(PinCfg->Pin, PinCfg->Pinmode);
-    SetOpenDrainMode(PinCfg->Pin, PinCfg->OpenDrain);
-}
