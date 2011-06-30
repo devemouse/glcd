@@ -35,27 +35,6 @@ extern "C"
  * @{
  */
 
-
-/** @defgroup SPI_PINSEL
- * @{
- */
-/** SPI function pin selection group 0 */
-#define SPI_PINSEL_SCK_P0_15    ((uint32_t)(15))
-#define SPI_PINFUNC_SCK_P0_15   ((uint32_t)(3))
-
-#define SPI_PINSEL_SSEL_P0_16   ((uint32_t)(16))
-#define SPI_PINFUNC_SSEL_P0_16  ((uint32_t)(3))
-
-#define SPI_PINSEL_MISO_P0_17   ((uint32_t)(17))
-#define SPI_PINFUNC_MISO_P0_17  ((uint32_t)(3))
-
-#define SPI_PINSEL_MOSI_P0_18   ((uint32_t)(18))
-#define SPI_PINFUNC_MOSI_P0_18  ((uint32_t)(3))
-/**
- * @}
- */
-
-
 /*********************************************************************//**
  * Macro defines for SPI Control Register
  **********************************************************************/
