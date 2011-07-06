@@ -3,7 +3,7 @@
 
 
 PINSEL::PINSEL( PINSEL_PortPin_e Pin, PINSEL_PinFunction_e Funcnum,
-      PINSEL_PinMode_e Pinmode, PINSEL_PinOpenDrain_e OpenDrain);
+      PINSEL_PinMode_e Pinmode, PINSEL_PinOpenDrain_e OpenDrain)
 {
     SetPinFunc(Pin, Funcnum);
     SetResistorMode(Pin, Pinmode);

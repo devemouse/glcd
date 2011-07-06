@@ -14,7 +14,7 @@
 #ifndef _CLKPWR_H_
 #define _CLKPWR_H_
 
-#include "lpc17xx.h"
+#include "LPC17xx.h"
 
 /******************************************************************************
  * Forward declarations
