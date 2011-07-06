@@ -67,7 +67,7 @@ void PINSEL::SetOpenDrainMode( PINSEL_PortPin_e pinnum, PINSEL_PinOpenDrain_e mo
 }
 
 
-void PINSEL::SetI2C0Pins(uint8_t i2cPinMode, FunctionalState filterSlewRateEnable)
+void PINSEL::SetI2C0Pins(PINSEL_I2C_Mode_e i2cPinMode, FunctionalState filterSlewRateEnable)
 {
     uint32_t regVal;
 

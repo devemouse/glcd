@@ -488,8 +488,10 @@ typedef enum {
 /***********************************************************************
  * Macros define for I2C mode
  ***********************************************************************/
-#define PINSEL_I2C_Normal_Mode      ((0))   /**< The standard drive mode */
-#define PINSEL_I2C_Fast_Mode        ((1))   /**<  Fast Mode Plus drive mode */
+typedef enum {
+   PINSEL_I2C_Normal_Mode = 0,   /**< The standard drive mode */
+   PINSEL_I2C_Fast_Mode   = 1,   /**<  Fast Mode Plus drive mode */
+} PINSEL_I2C_Mode_e;
 
 /**************************** GLOBAL/PUBLIC TYPES ***************************/
 
@@ -501,11 +503,6 @@ class PINSEL {
       /*****************************************************
        * Constructors
        *****************************************************/
-      /**
-       * Default empty construcor
-       */
-      PINSEL();
-
       /** 
        * @brief Parametrised constructor
        *
@@ -519,12 +516,7 @@ class PINSEL {
        *                - PINSEL_PINMODE_OPENDRAIN: Pin is in the open drain mode 
        */
       PINSEL( PINSEL_PortPin_e Pin, PINSEL_PinFunction_e Funcnum,
-              PINSEL_PinMode_e Pinmode, PINSEL_PinOpenDrain_e OpenDrain);
-
-      /**
-       * Default destructor
-       */
-      ~PINSEL() {};
+              PINSEL_PinMode_e Pinmode = PINSEL_PINMODE_PULLUP, PINSEL_PinOpenDrain_e OpenDrain = PINSEL_PINMODE_NORMAL);
 
       /*****************************************************
        * Functions: modifiers (set), selectors (get)
@@ -590,7 +582,7 @@ class PINSEL {
        *
        * @return      None
        **********************************************************************/
-      static void SetI2C0Pins(uint8_t i2cPinMode, FunctionalState filterSlewRateEnable);
+      static void SetI2C0Pins(PINSEL_I2C_Mode_e i2cPinMode, FunctionalState filterSlewRateEnable);
 
       /*****************************************************
        * Iterators
