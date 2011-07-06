@@ -24,12 +24,6 @@
 #define LQFP_100 2
 #define PACKAGE LQFP_1
 
-#ifdef __cplusplus
-extern "C"
-{
-#endif
-
-
 /* Pin selection define */
 /* I2C Pin Configuration register bit description */
 #define PINSEL_I2CPADCFG_SDADRV0  (1<<0) /**< Drive mode control for the SDA0 pin, P0.27 */
@@ -499,27 +493,6 @@ typedef enum {
 
 /**************************** GLOBAL/PUBLIC TYPES ***************************/
 
-/** Pin configuration structure */
-typedef struct
-{
-    PINSEL_PortPin_e Pin;          /**< Pin Number, should be PINSEL_Pn_x,
-                                        where n should be in range from 0 to 4 and
-                                        where x should be in range from 0 to 31 */
-    PINSEL_PinFunction_e Funcnum; /**< Function Number, should be PINSEL_FUNC_x,
-                                        where x should be in range from 0 to 3 */
-    PINSEL_PinMode_e Pinmode;    /**< Pin Mode, should be:
-                        - PINSEL_PINMODE_PULLUP: Internal pull-up resistor
-                        - PINSEL_PINMODE_TRISTATE: Tri-state
-                        - PINSEL_PINMODE_PULLDOWN: Internal pull-down resistor */
-    PINSEL_PinOpenDrain_e OpenDrain;  /**< OpenDrain mode, should be:
-                        - PINSEL_PINMODE_NORMAL: Pin is in the normal (not open drain) mode
-                        - PINSEL_PINMODE_OPENDRAIN: Pin is in the open drain mode */
-} PINSEL_CFG_Type;
-
-#ifdef __cplusplus
-}
-#endif
-
 /**
  * PINSEL class
  */
@@ -540,14 +513,10 @@ class PINSEL {
        *             where n should be in range from 0 to 4 and
        *             where x should be in range from 0 to 31
        * @param[in] funcnum Function Number
-       * @param[in] Pinmode Pin Mode, should be:
-       *                - PINSEL_PINMODE_PULLUP: Internal pull-up resistor
-       *                - PINSEL_PINMODE_TRISTATE: Tri-state
-       *                - PINSEL_PINMODE_PULLDOWN: Internal pull-down resistor
+       * @param[in] Pinmode Pin Mode, should be from PINSEL_PinFunction_e enum
        * @param[in] OpenDrain disbable/enable open drain
        *                - PINSEL_PINMODE_NORMAL: Pin is in the normal (not open drain) mode
        *                - PINSEL_PINMODE_OPENDRAIN: Pin is in the open drain mode 
-       * @return      None
        */
       PINSEL( PINSEL_PortPin_e Pin, PINSEL_PinFunction_e Funcnum,
               PINSEL_PinMode_e Pinmode, PINSEL_PinOpenDrain_e OpenDrain);
@@ -564,12 +533,7 @@ class PINSEL {
        * @brief       Setup the pin selection function
        * @param[in]   pinnum Pin number should be one of the values from PINSEL_PortPin_e 
        *
-       * @param[in]   funcnum Function number,
-       *              should be one of the following:
-       *              - PINSEL_FUNC_0 : default function
-       *              - PINSEL_FUNC_1 : first alternate function
-       *              - PINSEL_FUNC_2 : second alternate function
-       *              - PINSEL_FUNC_3 : third alternate function
+       * @param[in]   funcnum should be from PINSEL_PinFunction_e enum
        *
        * @return      None
        **********************************************************************/
