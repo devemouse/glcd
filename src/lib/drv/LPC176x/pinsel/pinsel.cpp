@@ -71,6 +71,12 @@ void PINSEL::SetI2C0Pins(PINSEL_I2C_Mode_e i2cPinMode, FunctionalState filterSle
 {
     uint32_t regVal;
 
+/* I2C Pin Configuration register bit description */
+#define PINSEL_I2CPADCFG_SDADRV0  (1<<0) /* Drive mode control for the SDA0 pin, P0.27 */
+#define PINSEL_I2CPADCFG_SDAI2C0  (1<<1) /* I2C mode control for the SDA0 pin, P0.27 */
+#define PINSEL_I2CPADCFG_SCLDRV0  (1<<2) /* Drive mode control for the SCL0 pin, P0.28 */
+#define PINSEL_I2CPADCFG_SCLI2C0  (1<<3) /* I2C mode control for the SCL0 pin, P0.28 */
+
     if (i2cPinMode == PINSEL_I2C_Fast_Mode){
         regVal = PINSEL_I2CPADCFG_SCLDRV0 | PINSEL_I2CPADCFG_SDADRV0;
     }

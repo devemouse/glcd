@@ -20,17 +20,6 @@
 #ifndef _PINSEL_H_
 #define _PINSEL_H_
 
-#define LQFP_80 1
-#define LQFP_100 2
-#define PACKAGE LQFP_1
-
-/* Pin selection define */
-/* I2C Pin Configuration register bit description */
-#define PINSEL_I2CPADCFG_SDADRV0  (1<<0) /**< Drive mode control for the SDA0 pin, P0.27 */
-#define PINSEL_I2CPADCFG_SDAI2C0  (1<<1) /**< I2C mode control for the SDA0 pin, P0.27 */
-#define PINSEL_I2CPADCFG_SCLDRV0  (1<<2) /**< Drive mode control for the SCL0 pin, P0.28 */
-#define PINSEL_I2CPADCFG_SCLI2C0  (1<<3) /**< I2C mode control for the SCL0 pin, P0.28 */
-
 /*************************** GLOBAL/PUBLIC MACROS ***************************/
 
 /*********************************************************************//**
@@ -55,7 +44,7 @@ typedef enum {
    PINSEL_P0_1    = (0<<8) | 1,
    PINSEL_P0_2    = (0<<8) | 2,
    PINSEL_P0_3    = (0<<8) | 3,
-#if PACKAGE == LQFP_1
+#ifdef LQFP_100
    PINSEL_P0_4    = (0<<8) | 4,
    PINSEL_P0_5    = (0<<8) | 5,
 #endif
@@ -69,19 +58,19 @@ typedef enum {
    PINSEL_P0_16   = (0<<8) | 16,
    PINSEL_P0_17   = (0<<8) | 17,
    PINSEL_P0_18   = (0<<8) | 18,
-#if PACKAGE == LQFP_1
+#ifdef LQFP_100
    PINSEL_P0_19   = (0<<8) | 19,
    PINSEL_P0_20   = (0<<8) | 20,
    PINSEL_P0_21   = (0<<8) | 21,
 #endif
    PINSEL_P0_22   = (0<<8) | 22,
-#if PACKAGE == LQFP_1
+#ifdef LQFP_100
    PINSEL_P0_23   = (0<<8) | 23,
    PINSEL_P0_24   = (0<<8) | 24,
 #endif
    PINSEL_P0_25   = (0<<8) | 25,
    PINSEL_P0_26   = (0<<8) | 26,
-#if PACKAGE == LQFP_1
+#ifdef LQFP_100
    PINSEL_P0_27   = (0<<8) | 27,
    PINSEL_P0_28   = (0<<8) | 28,
 #endif
@@ -99,14 +88,14 @@ typedef enum {
    PINSEL_P1_10   = (1<<8) | 10,
    PINSEL_P1_14   = (1<<8) | 14,
    PINSEL_P1_15   = (1<<8) | 15,
-#if PACKAGE == LQFP_1
+#ifdef LQFP_100
    PINSEL_P1_16   = (1<<8) | 16,
    PINSEL_P1_17   = (1<<8) | 17,
 #endif
    PINSEL_P1_18   = (1<<8) | 18,
    PINSEL_P1_19   = (1<<8) | 19,
    PINSEL_P1_20   = (1<<8) | 20,
-#if PACKAGE == LQFP_1
+#ifdef LQFP_100
    PINSEL_P1_21   = (1<<8) | 21,
 #endif
    PINSEL_P1_22   = (1<<8) | 22,
@@ -114,7 +103,7 @@ typedef enum {
    PINSEL_P1_24   = (1<<8) | 24,
    PINSEL_P1_25   = (1<<8) | 25,
    PINSEL_P1_26   = (1<<8) | 26,
-#if PACKAGE == LQFP_1
+#ifdef LQFP_100
    PINSEL_P1_27   = (1<<8) | 27,
 #endif
    PINSEL_P1_28   = (1<<8) | 28,
@@ -136,7 +125,7 @@ typedef enum {
    PINSEL_P2_8    = (2<<8) | 8,
    PINSEL_P2_9    = (2<<8) | 9,
    PINSEL_P2_10   = (2<<8) | 10,
-#if PACKAGE == LQFP_1
+#ifdef LQFP_100
    PINSEL_P2_11   = (2<<8) | 11,
    PINSEL_P2_12   = (2<<8) | 12,
    PINSEL_P2_13   = (2<<8) | 13,
@@ -145,7 +134,7 @@ typedef enum {
    /* PORT 3
     * Pins 0 through 24, and 27 through 31 of this port are not available.
     */
-#if PACKAGE == LQFP_1
+#ifdef LQFP_100
    PINSEL_P3_25   = (3<<8) | 25,
    PINSEL_P3_26   = (3<<8) | 26,
 #endif
@@ -570,7 +559,7 @@ class PINSEL {
       static void SetOpenDrainMode(  PINSEL_PortPin_e pinnum, PINSEL_PinOpenDrain_e modenum);
 
       /*********************************************************************//**
-       * @brief       Setup I2C0 pins
+       * @brief       Setup I2C0 pins (P0_27 - SDA0; P0_28 - SCL0)
        * @param[in]   i2cPinMode I2C pin mode,
        *              should be one of the following:
        *              - PINSEL_I2C_Normal_Mode : The standard drive mode
