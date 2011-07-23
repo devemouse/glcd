@@ -452,17 +452,6 @@ typedef enum {
 } PINSEL_PinFunction_e;
 
 
-/***********************************************************************
- * Macros define for Pin mode
- **********************************************************************/
-typedef enum {
-   PINSEL_PINMODE_PULLUP   = 0, /**< Internal pull-up resistor */
-   PINSEL_PINMODE_REPEATER = 1, /**< If the pin is at a logic high and enables
-                                     the pull-down resistor if the pin is at a
-                                     logic low */
-   PINSEL_PINMODE_TRISTATE = 2, /**< Tri-state */
-   PINSEL_PINMODE_PULLDOWN = 3, /**< Internal pull-down resistor */
-} PINSEL_PinMode_e;
 
 
 /***********************************************************************
@@ -489,6 +478,18 @@ typedef enum {
  */
 class PINSEL {
    public:
+      /***********************************************************************
+       * Macros define for Pin mode
+       **********************************************************************/
+      typedef enum {
+         PINMODE_PULLUP   = 0, /**< Internal pull-up resistor */
+         PINMODE_REPEATER = 1, /**< If the pin is at a logic high and enables
+                                        the pull-down resistor if the pin is at a
+                                        logic low */
+         PINMODE_TRISTATE = 2, /**< Tri-state */
+         PINMODE_PULLDOWN = 3, /**< Internal pull-down resistor */
+      } PinMode_e;
+
       /*****************************************************
        * Constructors
        *****************************************************/
@@ -505,7 +506,7 @@ class PINSEL {
        *                - PINSEL_PINMODE_OPENDRAIN: Pin is in the open drain mode 
        */
       PINSEL( PINSEL_PortPin_e Pin, PINSEL_PinFunction_e Funcnum,
-              PINSEL_PinMode_e Pinmode = PINSEL_PINMODE_PULLUP, PINSEL_PinOpenDrain_e OpenDrain = PINSEL_PINMODE_NORMAL);
+              PINSEL::PinMode_e Pinmode = PINSEL::PINMODE_PULLUP, PINSEL_PinOpenDrain_e OpenDrain = PINSEL_PINMODE_NORMAL);
 
       /*****************************************************
        * Functions: modifiers (set), selectors (get)
@@ -543,7 +544,7 @@ class PINSEL {
        *
        * @return      None
        **********************************************************************/
-      static void SetResistorMode (  PINSEL_PortPin_e pinnum, PINSEL_PinMode_e modenum);
+      static void SetResistorMode (  PINSEL_PortPin_e pinnum, PINSEL::PinMode_e modenum);
 
       /*********************************************************************//**
        * @brief       Setup Open drain mode for each pin

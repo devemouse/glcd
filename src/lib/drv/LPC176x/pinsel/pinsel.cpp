@@ -3,7 +3,7 @@
 
 
 PINSEL::PINSEL( PINSEL_PortPin_e Pin, PINSEL_PinFunction_e Funcnum,
-      PINSEL_PinMode_e Pinmode, PINSEL_PinOpenDrain_e OpenDrain)
+      PINSEL::PinMode_e Pinmode, PINSEL_PinOpenDrain_e OpenDrain)
 {
     SetPinFunc(Pin, Funcnum);
     SetResistorMode(Pin, Pinmode);
@@ -39,7 +39,7 @@ void PINSEL::ConfigTraceFunc(FunctionalState NewState)
 
 
 
-void PINSEL::SetResistorMode ( PINSEL_PortPin_e pinnum, PINSEL_PinMode_e modenum)
+void PINSEL::SetResistorMode ( PINSEL_PortPin_e pinnum, PINSEL::PinMode_e modenum)
 {
     uint32_t pinnum_t = (pinnum & 0x1F);
     uint32_t pinmodereg_idx = 2 * (pinnum & 0x0700);
