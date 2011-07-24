@@ -2,8 +2,8 @@
 #include "pinsel.h"
 
 
-PINSEL::PINSEL( PINSEL_PortPin_e Pin, PINSEL_PinFunction_e Funcnum,
-      PINSEL::PinMode_e Pinmode, PINSEL_PinOpenDrain_e OpenDrain)
+PINSEL::PINSEL( PortPin_e Pin, PinFunction_e Funcnum,
+      PinMode_e Pinmode, PinOpenDrain_e OpenDrain)
 {
     SetPinFunc(Pin, Funcnum);
     SetResistorMode(Pin, Pinmode);
@@ -11,7 +11,7 @@ PINSEL::PINSEL( PINSEL_PortPin_e Pin, PINSEL_PinFunction_e Funcnum,
 }
 
 
-void PINSEL::SetPinFunc (  PINSEL_PortPin_e pinnum, PINSEL_PinFunction_e funcnum)
+void PINSEL::SetPinFunc (  PortPin_e pinnum, PinFunction_e funcnum)
 {
     uint32_t pinnum_t = (pinnum & 0x1F);
     uint32_t pinselreg_idx = 2 * (pinnum & 0x0700);
@@ -39,7 +39,7 @@ void PINSEL::ConfigTraceFunc(FunctionalState NewState)
 
 
 
-void PINSEL::SetResistorMode ( PINSEL_PortPin_e pinnum, PINSEL::PinMode_e modenum)
+void PINSEL::SetResistorMode ( PortPin_e pinnum, PinMode_e modenum)
 {
     uint32_t pinnum_t = (pinnum & 0x1F);
     uint32_t pinmodereg_idx = 2 * (pinnum & 0x0700);
@@ -57,9 +57,9 @@ void PINSEL::SetResistorMode ( PINSEL_PortPin_e pinnum, PINSEL::PinMode_e modenu
 
 
 
-void PINSEL::SetOpenDrainMode( PINSEL_PortPin_e pinnum, PINSEL_PinOpenDrain_e modenum)
+void PINSEL::SetOpenDrainMode( PortPin_e pinnum, PinOpenDrain_e modenum)
 {
-    if (modenum == PINSEL_PINMODE_OPENDRAIN){
+    if (modenum == PINMODE_OPENDRAIN){
         *(&LPC_PINCON->PINMODE_OD0 + (pinnum & 0x0700)) |= (0x01UL << pinnum);
     } else {
         *(&LPC_PINCON->PINMODE_OD0 + (pinnum & 0x0700)) &= ~(0x01UL << pinnum);
@@ -67,22 +67,22 @@ void PINSEL::SetOpenDrainMode( PINSEL_PortPin_e pinnum, PINSEL_PinOpenDrain_e mo
 }
 
 
-void PINSEL::SetI2C0Pins(PINSEL_I2C_Mode_e i2cPinMode, FunctionalState filterSlewRateEnable)
+void PINSEL::SetI2C0Pins(I2C_Mode_e i2cPinMode, FunctionalState filterSlewRateEnable)
 {
     uint32_t regVal;
 
-/* I2C Pin Configuration register bit description */
-#define PINSEL_I2CPADCFG_SDADRV0  (1<<0) /* Drive mode control for the SDA0 pin, P0.27 */
-#define PINSEL_I2CPADCFG_SDAI2C0  (1<<1) /* I2C mode control for the SDA0 pin, P0.27 */
-#define PINSEL_I2CPADCFG_SCLDRV0  (1<<2) /* Drive mode control for the SCL0 pin, P0.28 */
-#define PINSEL_I2CPADCFG_SCLI2C0  (1<<3) /* I2C mode control for the SCL0 pin, P0.28 */
+    /* I2C Pin Configuration register bit description */
+#define I2CPADCFG_SDADRV0  (1<<0) /* Drive mode control for the SDA0 pin, P0.27 */
+#define I2CPADCFG_SDAI2C0  (1<<1) /* I2C mode control for the SDA0 pin, P0.27 */
+#define I2CPADCFG_SCLDRV0  (1<<2) /* Drive mode control for the SCL0 pin, P0.28 */
+#define I2CPADCFG_SCLI2C0  (1<<3) /* I2C mode control for the SCL0 pin, P0.28 */
 
-    if (i2cPinMode == PINSEL_I2C_Fast_Mode){
-        regVal = PINSEL_I2CPADCFG_SCLDRV0 | PINSEL_I2CPADCFG_SDADRV0;
+    if (i2cPinMode == I2C_Fast_Mode){
+        regVal = I2CPADCFG_SCLDRV0 | I2CPADCFG_SDADRV0;
     }
 
     if (filterSlewRateEnable == DISABLE){
-        regVal = PINSEL_I2CPADCFG_SCLI2C0 | PINSEL_I2CPADCFG_SDAI2C0;
+        regVal = I2CPADCFG_SCLI2C0 | I2CPADCFG_SDAI2C0;
     }
     LPC_PINCON->I2CPADCFG = regVal;
 }
