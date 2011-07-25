@@ -1,10 +1,9 @@
 
 #include "pinsel.h"
 
-
-PINSEL::PINSEL( PortPin_e Pin, PinFunction_e Funcnum,
+PINSEL::PINSEL(Port_e _portnum, Pin_e _pinnum, PinFunction_e Funcnum,
       PinMode_e Pinmode, PinOpenDrain_e OpenDrain)
-   : _pinnum(Pin)
+   : pinnum(_pinnum), portnum(_portnum)
 {
     SetPinFunc(Funcnum);
     SetResistorMode(Pinmode);
@@ -14,8 +13,8 @@ PINSEL::PINSEL( PortPin_e Pin, PinFunction_e Funcnum,
 
 void PINSEL::SetPinFunc (PinFunction_e funcnum)
 {
-    uint32_t pinnum_t = (_pinnum & 0x1F);
-    uint32_t pinselreg_idx = 2 * (_pinnum & 0x0700);
+    uint32_t pinnum_t = pinnum;
+    uint32_t pinselreg_idx = 2 * portnum;
     //TODO: remove this warning
     uint32_t *pPinCon = (uint32_t *)&LPC_PINCON->PINSEL0;
 
@@ -42,8 +41,8 @@ void PINSEL::ConfigTraceFunc(FunctionalState NewState)
 
 void PINSEL::SetResistorMode (  PinMode_e modenum)
 {
-    uint32_t pinnum_t = (_pinnum & 0x1F);
-    uint32_t pinmodereg_idx = 2 * (_pinnum & 0x0700);
+    uint32_t pinnum_t = pinnum;
+    uint32_t pinmodereg_idx = 2 * portnum;
     //TODO: remove this warning
     uint32_t *pPinCon = (uint32_t *)&LPC_PINCON->PINMODE0;
 
@@ -61,9 +60,9 @@ void PINSEL::SetResistorMode (  PinMode_e modenum)
 void PINSEL::SetOpenDrainMode(  PinOpenDrain_e modenum)
 {
     if (modenum == PINMODE_OPENDRAIN){
-        *(&LPC_PINCON->PINMODE_OD0 + (_pinnum & 0x0700)) |= (0x01UL << _pinnum);
+        *(&LPC_PINCON->PINMODE_OD0 + portnum) |= (0x01UL << pinnum);
     } else {
-        *(&LPC_PINCON->PINMODE_OD0 + (_pinnum & 0x0700)) &= ~(0x01UL << _pinnum);
+        *(&LPC_PINCON->PINMODE_OD0 + portnum) &= ~(0x01UL << pinnum);
     }
 }
 

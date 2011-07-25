@@ -62,25 +62,25 @@ Status SPI::SetClock ( uint32_t target_clock)
 void SPI::PinConfig(SPI_Mode_e spiMode)
 {
     // SCK pin
-    PINSEL sckPin(PIN_P0_15, PINSEL::P0_15_SCK, PINSEL::PINMODE_PULLUP);
+    PINSEL sckPin(PORT_0, PIN_15, PINSEL::P0_15_SCK, PINSEL::PINMODE_PULLUP);
 
 
     // SSEL pin
     if (spiMode == SPI_SLAVE_MODE)
     {
-       PINSEL sselPin (PIN_P0_16, PINSEL::P0_16_SSEL, PINSEL::PINMODE_PULLUP);
+       PINSEL sselPin (PORT_0, PIN_16, PINSEL::P0_16_SSEL, PINSEL::PINMODE_PULLUP);
     }
     else
     {
        // Release SSEL pin as default function
-       PINSEL sselPin(PIN_P0_16, PINSEL::P0_16_GPIO, PINSEL::PINMODE_PULLUP);
+       PINSEL sselPin(PORT_0, PIN_16, PINSEL::P0_16_GPIO, PINSEL::PINMODE_PULLUP);
     }
 
     // MISO pin
-    PINSEL misoPin(PIN_P0_17, PINSEL::P0_17_MISO, PINSEL::PINMODE_PULLUP);
+    PINSEL misoPin(PORT_0, PIN_17, PINSEL::P0_17_MISO, PINSEL::PINMODE_PULLUP);
 
     // MOSI pin
-    PINSEL mosiPin(PIN_P0_18, PINSEL::P0_18_MOSI, PINSEL::PINMODE_PULLUP);
+    PINSEL mosiPin(PORT_0, PIN_18, PINSEL::P0_18_MOSI, PINSEL::PINMODE_PULLUP);
 }
 
 void SPI::DeInit()

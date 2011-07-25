@@ -73,11 +73,9 @@ int main(void)
 {
    enableCLKOUT();
 
-   Pin p1_25 = {LPC_GPIO1, 25};
-   Pin p1_26 = {LPC_GPIO1, 26};
 
-   Lamp the_blinker(p1_25, false, false);
-   Lamp the_inverted_blinker(p1_26, false, true);
+   Lamp the_blinker(PORT_1, PIN_25, false, false);
+   Lamp the_inverted_blinker(PORT_1, PIN_26, false, true);
 
    SystemTick systick;
 

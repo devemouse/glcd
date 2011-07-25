@@ -372,7 +372,7 @@ class PINSEL {
        *                - PINMODE_NORMAL: Pin is in the normal (not open drain) mode
        *                - PINMODE_OPENDRAIN: Pin is in the open drain mode 
        */
-      PINSEL( PortPin_e Pin, PinFunction_e Funcnum,
+      PINSEL( Port_e _portnum, Pin_e _pinnum, PinFunction_e Funcnum,
               PinMode_e Pinmode = PINMODE_PULLUP, PinOpenDrain_e OpenDrain = PINMODE_NORMAL);
 
       /*****************************************************
@@ -459,7 +459,8 @@ class PINSEL {
        *****************************************************/
 
    private:
-      PortPin_e _pinnum;
+      Pin_e pinnum;
+      Port_e portnum;
       /*****************************************************
        * Private functions
        *****************************************************/

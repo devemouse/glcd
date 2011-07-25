@@ -50,7 +50,6 @@ C_COMMONFLAGS = \
                 -mthumb \
                 -gdwarf-2 \
                 -O0 \
-                -DLQFP_100 \
                 -fpromote-loop-indices \
                 -mhard-float \
                 -Wall \
