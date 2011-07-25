@@ -534,7 +534,6 @@ class SSP {
        ***********************************************************************/
       Status SetClock ( uint32_t target_clock);
       void PinConfig( SSP_PinCFG_Type *SSPPinCfg);
-      void PinConfigStructInit( SSP_PinCFG_Type *SSP_PinInitStruct);
       void DeInit();
       void Init( SSP_CFG_Type *SSP_ConfigStruct);
       void ConfigStructInit(SSP_CFG_Type *SSP_InitStruct);
