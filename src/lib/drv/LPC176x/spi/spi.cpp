@@ -62,30 +62,25 @@ Status SPI::SetClock ( uint32_t target_clock)
 void SPI::PinConfig(SPI_Mode_e spiMode)
 {
     // SCK pin
-    PINSEL::SetPinFunc (PIN_P0_15, PINSEL::P0_15_SCK);
-    PINSEL::SetResistorMode (PIN_P0_15, PINSEL::PINMODE_PULLUP);
+    PINSEL sckPin(PIN_P0_15, PINSEL::P0_15_SCK, PINSEL::PINMODE_PULLUP);
 
 
     // SSEL pin
     if (spiMode == SPI_SLAVE_MODE)
     {
-       PINSEL::SetPinFunc (PIN_P0_16, PINSEL::P0_16_SSEL);
-       PINSEL::SetResistorMode (PIN_P0_16, PINSEL::PINMODE_PULLUP);
+       PINSEL sselPin (PIN_P0_16, PINSEL::P0_16_SSEL, PINSEL::PINMODE_PULLUP);
     }
     else
     {
        // Release SSEL pin as default function
-       PINSEL::SetPinFunc (PIN_P0_16, PINSEL::P0_16_GPIO);
-       PINSEL::SetResistorMode (PIN_P0_16, PINSEL::PINMODE_PULLUP);
+       PINSEL sselPin(PIN_P0_16, PINSEL::P0_16_GPIO, PINSEL::PINMODE_PULLUP);
     }
 
     // MISO pin
-    PINSEL::SetPinFunc (PIN_P0_17, PINSEL::P0_17_MISO);
-    PINSEL::SetResistorMode (PIN_P0_17, PINSEL::PINMODE_PULLUP);
+    PINSEL misoPin(PIN_P0_17, PINSEL::P0_17_MISO, PINSEL::PINMODE_PULLUP);
 
     // MOSI pin
-    PINSEL::SetPinFunc (PIN_P0_18, PINSEL::P0_18_MOSI);
-    PINSEL::SetResistorMode (PIN_P0_18, PINSEL::PINMODE_PULLUP);
+    PINSEL mosiPin(PIN_P0_18, PINSEL::P0_18_MOSI, PINSEL::PINMODE_PULLUP);
 }
 
 void SPI::DeInit()

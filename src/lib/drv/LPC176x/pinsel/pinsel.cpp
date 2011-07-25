@@ -4,17 +4,18 @@
 
 PINSEL::PINSEL( PortPin_e Pin, PinFunction_e Funcnum,
       PinMode_e Pinmode, PinOpenDrain_e OpenDrain)
+   : _pinnum(Pin)
 {
-    SetPinFunc(Pin, Funcnum);
-    SetResistorMode(Pin, Pinmode);
-    SetOpenDrainMode(Pin, OpenDrain);
+    SetPinFunc(Funcnum);
+    SetResistorMode(Pinmode);
+    SetOpenDrainMode(OpenDrain);
 }
 
 
-void PINSEL::SetPinFunc (  PortPin_e pinnum, PinFunction_e funcnum)
+void PINSEL::SetPinFunc (PinFunction_e funcnum)
 {
-    uint32_t pinnum_t = (pinnum & 0x1F);
-    uint32_t pinselreg_idx = 2 * (pinnum & 0x0700);
+    uint32_t pinnum_t = (_pinnum & 0x1F);
+    uint32_t pinselreg_idx = 2 * (_pinnum & 0x0700);
     //TODO: remove this warning
     uint32_t *pPinCon = (uint32_t *)&LPC_PINCON->PINSEL0;
 
@@ -23,7 +24,7 @@ void PINSEL::SetPinFunc (  PortPin_e pinnum, PinFunction_e funcnum)
         pinselreg_idx++;
     }
     *(uint32_t *)(pPinCon + pinselreg_idx) &= ~(0x03UL << (pinnum_t * 2));
-    *(uint32_t *)(pPinCon + pinselreg_idx) |= (uint32_t)funcnum;
+    *(uint32_t *)(pPinCon + pinselreg_idx) |= ((uint32_t)funcnum) << (pinnum_t * 2);
 }
 
 
@@ -39,10 +40,10 @@ void PINSEL::ConfigTraceFunc(FunctionalState NewState)
 
 
 
-void PINSEL::SetResistorMode ( PortPin_e pinnum, PinMode_e modenum)
+void PINSEL::SetResistorMode (  PinMode_e modenum)
 {
-    uint32_t pinnum_t = (pinnum & 0x1F);
-    uint32_t pinmodereg_idx = 2 * (pinnum & 0x0700);
+    uint32_t pinnum_t = (_pinnum & 0x1F);
+    uint32_t pinmodereg_idx = 2 * (_pinnum & 0x0700);
     //TODO: remove this warning
     uint32_t *pPinCon = (uint32_t *)&LPC_PINCON->PINMODE0;
 
@@ -57,12 +58,12 @@ void PINSEL::SetResistorMode ( PortPin_e pinnum, PinMode_e modenum)
 
 
 
-void PINSEL::SetOpenDrainMode( PortPin_e pinnum, PinOpenDrain_e modenum)
+void PINSEL::SetOpenDrainMode(  PinOpenDrain_e modenum)
 {
     if (modenum == PINMODE_OPENDRAIN){
-        *(&LPC_PINCON->PINMODE_OD0 + (pinnum & 0x0700)) |= (0x01UL << pinnum);
+        *(&LPC_PINCON->PINMODE_OD0 + (_pinnum & 0x0700)) |= (0x01UL << _pinnum);
     } else {
-        *(&LPC_PINCON->PINMODE_OD0 + (pinnum & 0x0700)) &= ~(0x01UL << pinnum);
+        *(&LPC_PINCON->PINMODE_OD0 + (_pinnum & 0x0700)) &= ~(0x01UL << _pinnum);
     }
 }
 
