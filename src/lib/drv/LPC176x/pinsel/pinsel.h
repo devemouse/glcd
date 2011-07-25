@@ -42,7 +42,6 @@ class PINSEL {
          PINMODE_OPENDRAIN    = 1,   /**< Pin is in the open drain mode */
       } PinOpenDrain_e;
 
-
       typedef enum {
          I2C_Normal_Mode = 0,   /**< The standard drive mode */
          I2C_Fast_Mode   = 1,   /**<  Fast Mode Plus drive mode */
@@ -357,6 +356,26 @@ class PINSEL {
          P4_29_RXD3         = 3,
       } PinFunction_e;
 
+      /** Pin configuration structure */
+      typedef struct
+      {
+         Port_e Portnum;    /**< Port Number, should be PINSEL_PORT_x,
+                                     where x should be in range from 0 to 4 */
+         Pin_e Pinnum;     /**< Pin Number, should be PINSEL_PIN_x,
+                               where x should be in range from 0 to 31 */
+         PinFunction_e Funcnum;    /**< Function Number, should be PINSEL_FUNC_x,
+                               where x should be in range from 0 to 3 */
+         PinMode_e Pinmode;    /**< Pin Mode, should be:
+                               - PINSEL_PINMODE_PULLUP: Internal pull-up resistor
+                               - PINSEL_PINMODE_TRISTATE: Tri-state
+                               - PINSEL_PINMODE_PULLDOWN: Internal pull-down resistor */
+         PinOpenDrain_e OpenDrain;  /**< OpenDrain mode, should be:
+                               - PINSEL_PINMODE_NORMAL: Pin is in the normal (not open drain) mode
+                               - PINSEL_PINMODE_OPENDRAIN: Pin is in the open drain mode */
+      } CFG_Type;
+
+
+
       /*****************************************************
        * Constructors
        *****************************************************/
@@ -374,6 +393,16 @@ class PINSEL {
        */
       PINSEL( Port_e _portnum, Pin_e _pinnum, PinFunction_e Funcnum,
               PinMode_e Pinmode = PINMODE_PULLUP, PinOpenDrain_e OpenDrain = PINMODE_NORMAL);
+
+      /*********************************************************************//**
+       * @brief       Configure Pin corresponding to specified parameters passed
+       *              in the PinCfg
+       * @param[in]   PinCfg  Pointer to a PINSEL_CFG_Type structure
+       *                    that contains the configuration information for the
+       *                    specified pin.
+       * @return      None
+       **********************************************************************/
+      PINSEL(CFG_Type *PinCfg);
 
       /*****************************************************
        * Functions: modifiers (set), selectors (get)

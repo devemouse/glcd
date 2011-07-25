@@ -16,6 +16,7 @@ SUBDIRS = $(sort \
 			 src/lib/SystemTick \
 			 src/lib/drv/LPC176x \
 			 src/lib/drv/LPC176x/spi \
+			 src/lib/drv/LPC176x/ssp \
 			 src/lib/drv/LPC176x/pinsel \
 			 src/lib/drv/LPC176x/clkpwr \
 			 )
@@ -33,6 +34,7 @@ CSRCS =  $(sort \
 CPPSRCS = $(sort \
 			 main.cpp \
 			 spi.cpp \
+			 ssp.cpp \
 			 pinsel.cpp \
 			 lamp.cpp \
 			 SystemTick.cpp \

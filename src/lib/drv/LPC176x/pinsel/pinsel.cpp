@@ -10,6 +10,12 @@ PINSEL::PINSEL(Port_e _portnum, Pin_e _pinnum, PinFunction_e Funcnum,
     SetOpenDrainMode(OpenDrain);
 }
 
+PINSEL::PINSEL(CFG_Type *PinCfg)
+{
+    SetPinFunc(PinCfg->Funcnum);
+    SetResistorMode(PinCfg->Pinmode);
+    SetOpenDrainMode(PinCfg->OpenDrain);
+}
 
 void PINSEL::SetPinFunc (PinFunction_e funcnum)
 {
