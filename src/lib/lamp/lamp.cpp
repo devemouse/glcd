@@ -3,7 +3,7 @@
 #include "pinsel.h"
 #include "clkpwr.h"
 
-Lamp::Lamp(Port_e _portnum, Pin_e _pinnum, bool initial_state = false, bool inverted = false)
+Lamp::Lamp(Port_e _portnum, Pin_e _pinnum, bool initial_state /* = false */, bool inverted /* = false */)
    : pinnum(_pinnum), _is_on(initial_state), _inverted(!inverted)
 {
    CLKPWR::ConfigPPWR (CLKPWR_PCONP_PCGPIO, ENABLE);  // power up GPIO
@@ -15,3 +15,4 @@ Lamp::Lamp(Port_e _portnum, Pin_e _pinnum, bool initial_state = false, bool inve
 
    if (initial_state) {on();} else {off();}
 }
+

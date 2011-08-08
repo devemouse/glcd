@@ -5,7 +5,7 @@
 
 
 #define _SSP0
-#define _SSP1
+//#define _SSP1
 
 /** @addtogroup Private_Variables
  * @{
@@ -58,8 +58,6 @@ SSP::SSP(LPC_SSP_TypeDef *_SSPx, SSP_CFG_Type *SSP_ConfigStruct)
 
 /*********************************************************************//**
  * @brief       Setup clock rate for SSP device
- * @param[in]   SSPx    SSP peripheral definition, should be
- *                      SSP0 or SSP1.
  * @param[in]   target_clock : clock of SSP (Hz)
  * @return      Status of process (ERROR or SUCCESS)
  ***********************************************************************/
@@ -112,7 +110,6 @@ Status SSP::SetClock ( uint32_t target_clock)
 /*********************************************************************//**
  * @brief       Set all pins used as SSPx function corresponding to
  *              parameter specified in SSPPinCfg.
- * @param[in]   SSPx    SSP peripheral selected, should be SSP0 or SSP1
  * @param[in]   SSPPinCfg   Pointer to a SSP_PinCFG_Type structure
 *                    that contains the configuration information for the
 *                    specified SSPx pin function.
@@ -211,7 +208,6 @@ void SSP::PinConfig( SSP_PinCFG_Type *SSPPinCfg)
 /*********************************************************************//**
  * @brief       De-initializes the SSPx peripheral registers to their
 *                  default reset values.
- * @param[in]   SSPx    SSP peripheral selected, should be SSP0 or SSP1
  * @return      None
  **********************************************************************/
 void SSP::DeInit()
@@ -238,7 +234,6 @@ void SSP::DeInit()
 /********************************************************************//**
  * @brief       Initializes the SSPx peripheral according to the specified
 *               parameters in the SSP_ConfigStruct.
- * @param[in]   SSPx    SSP peripheral selected, should be SSP0 or SSP1
  * @param[in]   SSP_ConfigStruct Pointer to a SSP_CFG_Type structure
 *                    that contains the configuration information for the
 *                    specified SSP peripheral.
@@ -259,12 +254,12 @@ void SSP::Init( SSP_CFG_Type *SSP_ConfigStruct)
          * is set to FCCLK / 2 */
        CLKPWR::SetPCLKDiv(CLKPWR_PCLKSEL_SSP0, CLKPWR_PCLKSEL_CCLK_DIV_2);
 
-        defaultSSPPinCfg.MISO_Pin = SSP0_MISO_P0_17;
-        defaultSSPPinCfg.MOSI_Pin = SSP0_MOSI_P0_18;
-        defaultSSPPinCfg.SCK_Pin = SSP0_SCK_P0_15;
-        defaultSSPPinCfg.SSEL_Pin = SSP0_SSEL_P0_16;
-        defaultSSPPinCfg.SSPMode = SSP_MASTER_MODE;
-        defaultSSPPinCfg.CSPinConfig = SSP_CS_DEFAULT;
+       defaultSSPPinCfg.MISO_Pin = SSP0_MISO_P0_17;
+       defaultSSPPinCfg.MOSI_Pin = SSP0_MOSI_P0_18;
+       defaultSSPPinCfg.SCK_Pin = SSP0_SCK_P0_15;
+       defaultSSPPinCfg.SSEL_Pin = SSP0_SSEL_P0_16;
+       defaultSSPPinCfg.SSPMode = SSP_MASTER_MODE;
+       defaultSSPPinCfg.CSPinConfig = SSP_CS_DEFAULT;
     }
 #endif
 
@@ -334,7 +329,6 @@ void SSP::ConfigStructInit(SSP_CFG_Type *SSP_InitStruct)
 
 /*********************************************************************//**
  * @brief       Enable or disable SSP peripheral's operation
- * @param[in]   SSPx    SSP peripheral, should be SSP0 or SSP1
  * @param[in]   NewState New State of SSPx peripheral's operation
  * @return      none
  **********************************************************************/
@@ -355,7 +349,6 @@ void SSP::Cmd( FunctionalState NewState)
 
 /*********************************************************************//**
  * @brief       Enable or disable Loop Back mode function in SSP peripheral
- * @param[in]   SSPx    SSP peripheral selected, should be SSP0 or SSP1
  * @param[in]   NewState    New State of Loop Back mode, should be:
  *                          - ENABLE: Enable this function
  *                          - DISABLE: Disable this function
@@ -378,7 +371,6 @@ void SSP::LoopBackCmd( FunctionalState NewState)
 
 /*********************************************************************//**
  * @brief       Enable or disable Slave Output function in SSP peripheral
- * @param[in]   SSPx    SSP peripheral selected, should be SSP0 or SSP1
  * @param[in]   NewState    New State of Slave Output function, should be:
  *                          - ENABLE: Slave Output in normal operation
  *                          - DISABLE: Slave Output is disabled. This blocks
@@ -404,7 +396,6 @@ void SSP::SlaveOutputCmd( FunctionalState NewState)
 
 /*********************************************************************//**
  * @brief       Transmit a single data through SSPx peripheral
- * @param[in]   SSPx    SSP peripheral selected, should be SSP
  * @param[in]   Data    Data to transmit (must be 16 or 8-bit long,
  *                      this depend on SSP data bit number configured)
  * @return      none
@@ -419,7 +410,6 @@ void SSP::SendData( uint16_t Data)
 
 /*********************************************************************//**
  * @brief       Receive a single data from SSPx peripheral
- * @param[in]   SSPx    SSP peripheral selected, should be SSP
  * @return      Data received (16-bit long)
  **********************************************************************/
 uint16_t SSP::ReceiveData()
@@ -432,7 +422,6 @@ uint16_t SSP::ReceiveData()
 
 /*********************************************************************//**
  * @brief       Checks whether the specified SSP status flag is set or not
- * @param[in]   SSPx    SSP peripheral selected, should be SSP0 or SSP1
  * @param[in]   FlagType    Type of flag to check status, should be one
  *                          of following:
  *                          - SSP_STAT_TXFIFO_EMPTY: TX FIFO is empty
@@ -452,7 +441,6 @@ FlagStatus SSP::GetStatus( uint32_t FlagType)
 
 /*********************************************************************//**
  * @brief       Enable or disable specified interrupt type in SSP peripheral
- * @param[in]   SSPx    SSP peripheral selected, should be SSP0 or SSP1
  * @param[in]   IntType Interrupt type in SSP peripheral, should be:
  *              - SSP_INTCFG_ROR: Receive Overrun interrupt
  *              - SSP_INTCFG_RT: Receive Time out interrupt
@@ -480,7 +468,6 @@ void SSP::IntConfig( uint32_t IntType, FunctionalState NewState)
 /*********************************************************************//**
  * @brief   Check whether the specified Raw interrupt status flag is
  *          set or not
- * @param[in]   SSPx    SSP peripheral selected, should be SSP0 or SSP1
  * @param[in]   RawIntType  Raw Interrupt Type, should be:
  *              - SSP_INTSTAT_RAW_ROR: Receive Overrun interrupt
  *              - SSP_INTSTAT_RAW_RT: Receive Time out interrupt
@@ -500,7 +487,6 @@ IntStatus SSP::GetRawIntStatus( uint32_t RawIntType)
 /*********************************************************************//**
  * @brief   Check whether the specified interrupt status flag is
  *          set or not
- * @param[in]   SSPx    SSP peripheral selected, should be SSP0 or SSP1
  * @param[in]   RawIntType  Raw Interrupt Type, should be:
  *              - SSP_INTSTAT_ROR: Receive Overrun interrupt
  *              - SSP_INTSTAT_RT: Receive Time out interrupt
@@ -520,7 +506,6 @@ IntStatus SSP::GetIntStatus ( uint32_t IntType)
 
 /*********************************************************************//**
  * @brief               Clear specified interrupt pending in SSP peripheral
- * @param[in]   SSPx    SSP peripheral selected, should be SSP0 or SSP1
  * @param[in]   IntType Interrupt pending to clear, should be:
  *                      - SSP_INTCLR_ROR: clears the "frame was received when
  *                      RxFIFO was full" interrupt.
@@ -536,7 +521,6 @@ void SSP::ClearIntPending( uint32_t IntType)
 
 /*********************************************************************//**
  * @brief               Enable/Disable DMA function for SSP peripheral
- * @param[in]   SSPx    SSP peripheral selected, should be SSP0 or SSP1
  * @param[in]   DMAMode Type of DMA, should be:
  *                      - SSP_DMA_TX: DMA for the transmit FIFO
  *                      - SSP_DMA_RX: DMA for the Receive FIFO
